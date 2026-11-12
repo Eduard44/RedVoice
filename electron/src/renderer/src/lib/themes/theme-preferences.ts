@@ -1,6 +1,9 @@
 import { BUILT_IN_THEMES, getThemeColorsForAppearance, type ThemeAppearance } from './t3-palettes';
+import { REDVOICE_THEME } from './redvoice-palette';
 import { TAURI_THEME } from './tauri-palette';
-export const AVAILABLE_PALETTES = [...BUILT_IN_THEMES, TAURI_THEME];
+export const AVAILABLE_PALETTES = [REDVOICE_THEME, ...BUILT_IN_THEMES, TAURI_THEME];
+/** Dark palette for an install that has never chosen one; a saved choice always wins. */
+export const INITIAL_DARK_PALETTE = REDVOICE_THEME.id;
 export type PaletteId = 'default' | (typeof BUILT_IN_THEMES)[number]['id'];
 export type ThemeMode = ThemeAppearance | 'system';
 export interface ThemePreferences {
@@ -42,7 +45,7 @@ export function parseThemePreferences(
         ? 'light'
         : 'dark',
     light: palette(value.light),
-    dark: palette(value.dark),
+    dark: value.dark === undefined ? INITIAL_DARK_PALETTE : palette(value.dark),
   };
 }
 export function resolveTheme(preferences: ThemePreferences, systemDark: boolean) {
