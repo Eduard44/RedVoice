@@ -16,9 +16,15 @@ try {
   );
   const dark = page.getByRole('group', { name: 'Dark', exact: true });
   const original = dark.getByRole('button', { name: 'VoiceStudio Original', exact: true });
+  // A fresh install starts on the RedVoice dark palette, not Studio.
+  assert.equal(
+    await dark.getByRole('button', { name: 'RedVoice', exact: true }).getAttribute('aria-pressed'),
+    'true',
+  );
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.themeId), 'redvoice');
   assert.equal(
     await dark.getByRole('button', { name: 'Studio', exact: true }).getAttribute('aria-pressed'),
-    'true',
+    'false',
   );
   assert.equal(await original.getAttribute('aria-pressed'), 'false');
   await original.click();
