@@ -5,6 +5,7 @@ import { installConsoleCapture } from '@shared/utils/consoleBuffer';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/inter';
+import '@fontsource-variable/roboto';
 import './styles/globals.css';
 import './i18n';
 import './hooks/use-appearance';

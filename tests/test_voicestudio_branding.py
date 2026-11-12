@@ -54,10 +54,15 @@ def test_brand_mark_is_shared_and_fills_the_icon() -> None:
     mark = (ROOT / "electron/src/shared/components/brand/VoiceStudioMark.jsx").read_text(encoding="utf-8")
     header = (ROOT / "electron/src/shared/components/Header.jsx").read_text(encoding="utf-8")
     about = (ROOT / "electron/src/shared/components/settings/AboutTab.jsx").read_text(encoding="utf-8")
-    logo = (ROOT / "docs/logo.svg").read_text(encoding="utf-8")
+    # RedVoice draws its own mark (the letters R and V in Roboto). The desktop
+    # icons render from docs/redvoice-logo.svg; docs/logo.svg stays the upstream
+    # mark that the hidden phone apps still generate their icons from.
+    logo = (ROOT / "docs/redvoice-logo.svg").read_text(encoding="utf-8")
     favicon = (ROOT / "electron/public/favicon.svg").read_text(encoding="utf-8")
+    renderer = (ROOT / "scripts/render_brand_icons.py").read_text(encoding="utf-8")
+    assert 'SOURCE = ROOT / "docs/redvoice-logo.svg"' in renderer
 
-    signature = "M6 34c4 0 5-7 9-7"
+    signature = "M1.84 -24.17H11.36Q14.14"
     assert signature in mark
     assert signature in logo
     assert signature in favicon

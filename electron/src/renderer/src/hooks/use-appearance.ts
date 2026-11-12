@@ -1,7 +1,15 @@
 import { useSyncExternalStore } from 'react';
 import { onStorageKey } from '@/lib/storage-events';
 
-type Appearance = { font: 'inter' | 'system'; scale: number; glass: boolean };
+export const appearanceFonts = ['roboto', 'inter', 'system'] as const;
+type AppearanceFont = (typeof appearanceFonts)[number];
+type Appearance = { font: AppearanceFont; scale: number; glass: boolean };
+/** Bundled families; the system choice uses only the platform stack. */
+export const appearanceFontFamilies: Record<AppearanceFont, string | null> = {
+  roboto: 'Roboto Variable',
+  inter: 'Inter Variable',
+  system: null,
+};
 export const appearanceScales = [90, 100, 110, 125] as const;
 const key = 'voicestudio.appearance';
 const listeners = new Set<() => void>();
@@ -9,12 +17,12 @@ export function parseAppearance(raw: string | null): Appearance {
   try {
     const value = JSON.parse(raw ?? '{}');
     return {
-      font: value?.font === 'system' ? 'system' : 'inter',
+      font: appearanceFonts.includes(value?.font) ? value.font : 'roboto',
       glass: value?.glass !== false,
       scale: appearanceScales.includes(value?.scale) ? value.scale : 100,
     };
   } catch {
-    return { font: 'inter', scale: 100, glass: true };
+    return { font: 'roboto', scale: 100, glass: true };
   }
 }
 let current: Appearance;
@@ -28,7 +36,7 @@ function apply() {
   document.documentElement.style.fontSize = `${current.scale}%`;
   document.documentElement.style.setProperty(
     '--font-sans',
-    `${current.font === 'inter' ? '"Inter Variable", ' : ''}-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif`,
+    `${appearanceFontFamilies[current.font] ? `"${appearanceFontFamilies[current.font]}", ` : ''}-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif`,
   );
 }
 apply();
