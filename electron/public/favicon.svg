@@ -1,21 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="VoiceStudio">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="RedVoice">
   <defs>
     <linearGradient id="tile" x1="7" y1="4" x2="58" y2="62" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#211B2B"/>
-      <stop offset="1" stop-color="#120F18"/>
-    </linearGradient>
-    <radialGradient id="warmth" cx="0" cy="0" r="1" gradientTransform="translate(49 13) rotate(132) scale(42)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6A2D4C" stop-opacity="0.44"/>
-      <stop offset="1" stop-color="#6A2D4C" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="voice" x1="7" y1="18" x2="59" y2="46" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFD0DB"/>
-      <stop offset="0.5" stop-color="#F47FA3"/>
-      <stop offset="1" stop-color="#F7AE73"/>
+      <stop stop-color="#2A2A2E"/>
+      <stop offset="1" stop-color="#141416"/>
     </linearGradient>
   </defs>
   <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#tile)"/>
-  <rect x="2.5" y="2.5" width="59" height="59" rx="14.5" fill="url(#warmth)" stroke="#FFFFFF" stroke-opacity="0.09"/>
-  <path d="M6 34c4 0 5-7 9-7 5 0 4 14 9 14 5 0 4-23 9-23s4 28 9 28 4-21 9-21c4 0 5 9 8 9" fill="none" stroke="url(#voice)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M50 9c.7 4.3 3.7 7.3 8 8-4.3.7-7.3 3.7-8 8-.7-4.3-3.7-7.3-8-8 4.3-.7 7.3-3.7 8-8Z" fill="#FFE5B5"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="14.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.09"/>
+  <path transform="translate(10.2 44.1)" d="M1.84 -24.17H11.36Q14.14 -24.17 16.2 -23.34Q18.26 -22.51 19.38 -20.88Q20.5 -19.26 20.5 -16.87Q20.5 -14.79 19.86 -13.4Q19.21 -12 18.05 -11.1Q16.9 -10.19 15.37 -9.61L13.46 -8.53H5.48L5.45 -13.03H11.36Q12.47 -13.03 13.2 -13.43Q13.93 -13.83 14.3 -14.57Q14.68 -15.31 14.68 -16.34Q14.68 -17.38 14.29 -18.13Q13.91 -18.88 13.17 -19.27Q12.43 -19.67 11.36 -19.67H7.67V0H1.84ZM15.07 0 9.73 -10.69 15.9 -10.72 21.32 -0.25V0Z" fill="#E5383B"/>
+  <path transform="translate(31.4 44.1)" d="M10.99 -5.69 16.02 -24.17H22.54L14.39 0H10.18ZM6.42 -24.17 11.46 -5.69 12.3 0H8.04L-0.07 -24.17Z" fill="#F2F2F3"/>
 </svg>

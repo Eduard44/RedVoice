@@ -19,7 +19,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useTheme } from '@/hooks/use-theme';
-import { appearanceScales, useAppearance } from '@/hooks/use-appearance';
+import {
+  appearanceFontFamilies,
+  appearanceFonts,
+  appearanceScales,
+  useAppearance,
+} from '@/hooks/use-appearance';
+import { INITIAL_DARK_PALETTE } from '@/lib/themes/theme-preferences';
 import { setReviewMode, useReviewMode } from '@/hooks/use-review-mode';
 import { setWorkspace, useWorkspace } from '@/lib/store/workspace';
 import i18n, { APP_LANGUAGE_ITEMS, APP_LANGUAGES, setAppLanguage, type AppLocale } from '@/i18n';
@@ -86,7 +92,7 @@ export function AppearanceSettings() {
         <PalettePicker appearance="light" />
         <PalettePicker appearance="dark" />
         <SettingsRow id="font-label" title={t('preferences.font')}>
-          {(['inter', 'system'] as const).map((font) => (
+          {appearanceFonts.map((font) => (
             <Button
               size="sm"
               key={font}
@@ -96,10 +102,16 @@ export function AppearanceSettings() {
             >
               <span
                 style={{
-                  fontFamily: font === 'inter' ? '"Inter Variable", sans-serif' : 'system-ui',
+                  fontFamily: appearanceFontFamilies[font]
+                    ? `"${appearanceFontFamilies[font]}", sans-serif`
+                    : 'system-ui',
                 }}
               >
-                {font === 'inter' ? 'Inter' : t('preferences.audio_tools_origin_system')}
+                {font === 'system'
+                  ? t('preferences.audio_tools_origin_system')
+                  : font === 'roboto'
+                    ? 'Roboto'
+                    : 'Inter'}
               </span>
             </Button>
           ))}
@@ -133,8 +145,8 @@ export function AppearanceResetButton() {
       variant="ghost"
       className="ml-auto"
       onClick={() => {
-        appearance.update({ font: 'inter', scale: 100, glass: true });
-        updateTheme({ mode: 'dark', light: 'signal', dark: 'signal' });
+        appearance.update({ font: 'roboto', scale: 100, glass: true });
+        updateTheme({ mode: 'dark', light: 'signal', dark: INITIAL_DARK_PALETTE });
       }}
     >
       <RotateCcwIcon />

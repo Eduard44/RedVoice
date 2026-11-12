@@ -19,7 +19,7 @@ import resvg_py
 from PIL import Image, ImageDraw
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "docs/logo.svg"
+SOURCE = ROOT / "docs/redvoice-logo.svg"
 ICONS = ROOT / "electron/build/icons"
 ICO_SIZES = [16, 24, 32, 48, 64, 256]
 RECORDING = (0xEF, 0x44, 0x44, 255)
