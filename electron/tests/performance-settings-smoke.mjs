@@ -1,10 +1,16 @@
 import { chromium } from 'playwright';
+import { withProductName } from '../../config/product-name.mjs';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 const strings = JSON.parse(
   await readFile(new URL('../src/renderer/src/i18n/locales/en.json', import.meta.url), 'utf8'),
 );
-const t = (key) => key.split('.').reduce((value, part) => value[part], strings);
+// What the app shows: the catalog text with this build's product name.
+const t = (key) =>
+  withProductName(
+    key.split('.').reduce((value, part) => value[part], strings),
+    key,
+  );
 const browser = await chromium.launch({
   channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge',
   headless: true,
