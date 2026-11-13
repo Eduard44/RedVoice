@@ -1545,6 +1545,8 @@
     "remote_backend_url": "URL de back-end",
     "review_mode": "Modo de revisão",
     "review_mode_desc": "Faça uma pausa entre os estágios do pipeline para poder revisar a saída de ASR/tradução.",
+    "all_features": "Mostrar todos os recursos",
+    "all_features_desc": "O RedVoice mostra apenas a clonagem de voz. Ative para mostrar também dublagem, histórias, audiolivros, transcrição, fluxos de trabalho e os outros espaços.",
     "terminal_command": "Comando de terminal",
     "terminal_command_desc": "Execute voicestudio num terminal para usar os recursos do VoiceStudio; sem argumentos, abre o aplicativo.",
     "terminal_command_add": "Adicionar ao terminal",

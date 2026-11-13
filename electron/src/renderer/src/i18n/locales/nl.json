@@ -1543,6 +1543,8 @@
     "llmskills_glossary_extract_desc": "Stelt projectwoordenlijsttermen voor (namen, plaatsen, terugkerende terminologie) uit de bronsegmenten. Uit: woordenlijsttermen handmatig toevoegen.",
     "review_mode": "Review-modus",
     "review_mode_desc": "Pauzeer tussen pijplijnfasen, zodat u de ASR-/vertaaluitvoer kunt bekijken.",
+    "all_features": "Alle functies tonen",
+    "all_features_desc": "RedVoice toont alleen stemklonen. Zet dit aan om ook nasynchronisatie, verhalen, luisterboeken, transcriptie, workflows en de andere werkruimtes te tonen.",
     "terminal_command": "Terminalopdracht",
     "terminal_command_desc": "Voer voicestudio uit in een terminal om de functies van VoiceStudio te gebruiken; zonder argumenten opent het de app.",
     "terminal_command_add": "Aan terminal toevoegen",

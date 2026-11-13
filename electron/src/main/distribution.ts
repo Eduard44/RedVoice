@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs';
+import { ONLINE_SERVICES } from '../../../config/app-config.mjs';
 import { join } from 'node:path';
 import {
   DISTRIBUTION_PROFILES,
@@ -34,10 +35,18 @@ export function updateConfigPresent(
   return !resourcesPath || existsSync(join(resourcesPath, 'app-update.yml'));
 }
 
+/**
+ * Update checks are off when the environment asks, and always in a build with
+ * online services switched off: its updates would come from the upstream app.
+ */
+function updatesSwitchedOff(): boolean {
+  return !ONLINE_SERVICES || process.env.VOICESTUDIO_DISABLE_UPDATER === '1';
+}
+
 export function applicationUpdatesUnsupportedReason(
   packaged: boolean,
   target: DistributionTarget = CURRENT_DISTRIBUTION,
-  disabledByEnvironment = process.env.VOICESTUDIO_DISABLE_UPDATER === '1',
+  disabledByEnvironment = updatesSwitchedOff(),
   hasUpdateConfig: boolean | (() => boolean) = updateConfigPresent,
 ): UpdateUnsupportedReason | null {
   if (!packaged) return 'development';
@@ -51,7 +60,7 @@ export function applicationUpdatesUnsupportedReason(
 export function applicationUpdatesSupported(
   packaged: boolean,
   target: DistributionTarget = CURRENT_DISTRIBUTION,
-  disabledByEnvironment = process.env.VOICESTUDIO_DISABLE_UPDATER === '1',
+  disabledByEnvironment = updatesSwitchedOff(),
 ): boolean {
   return applicationUpdatesUnsupportedReason(packaged, target, disabledByEnvironment) === null;
 }

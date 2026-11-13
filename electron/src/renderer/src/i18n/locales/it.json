@@ -1545,6 +1545,8 @@
     "remote_backend_confirm_unverified": "Questo URL di backend non ha superato un test di connessione. Salvarlo e ricaricarlo comunque? Se è sbagliato, l'app non potrà raggiungere alcun backend finché non lo cambi di nuovo qui.",
     "review_mode": "Modalità revisione",
     "review_mode_desc": "Fai una pausa tra le fasi della pipeline in modo da poter rivedere l'output ASR/traduzione.",
+    "all_features": "Mostra tutte le funzioni",
+    "all_features_desc": "RedVoice mostra solo la clonazione vocale. Attiva questa opzione per mostrare anche doppiaggio, storie, audiolibri, trascrizione, flussi di lavoro e gli altri spazi.",
     "terminal_command": "Comando da terminale",
     "terminal_command_desc": "Esegui voicestudio in un terminale per usare le funzioni di VoiceStudio; senza argomenti apre l'app.",
     "terminal_command_add": "Aggiungi al terminale",

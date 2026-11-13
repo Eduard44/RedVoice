@@ -101,7 +101,7 @@ try {
   await next.waitFor();
   assert.ok(await next.isDisabled());
   await page.getByRole('button', { name: 'Re-check', exact: true }).waitFor();
-  assert.ok(await page.getByRole('heading', { name: 'VoiceStudio', exact: true }).isVisible());
+  assert.ok(await page.getByRole('heading', { name: 'RedVoice', exact: true }).isVisible());
   partialPreflight = false;
   await page.getByRole('button', { name: 'Re-check', exact: true }).click();
   await page.getByText('Fixture memory result').waitFor();

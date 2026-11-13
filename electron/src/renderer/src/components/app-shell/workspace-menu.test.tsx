@@ -12,6 +12,11 @@ vi.mock('@tanstack/react-router', () => ({
 }));
 vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 vi.mock('@/lib/store/workspace', () => ({ setWorkspace: vi.fn() }));
+// These tests cover the full upstream navigation, shown when all features are on.
+vi.mock('@/lib/redvoice-scope', async (importOriginal) => ({
+  ...(await importOriginal<object>()),
+  useShowAllFeatures: () => true,
+}));
 import { WorkspaceNavigation } from './workspace-menu';
 
 it('opens the current workflow, lets users collapse it, and follows route changes', () => {

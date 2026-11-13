@@ -4,5 +4,6 @@ export {
   DEFAULT_ELECTRON_DEV_PORT,
   DEFAULT_ELECTRON_PROXY_PORT,
   DEFAULT_WEB_PORT,
+  ONLINE_SERVICES,
   PRODUCT_NAME,
 } from '../../../config/app-config.mjs';

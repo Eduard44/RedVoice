@@ -169,7 +169,7 @@ try {
       });
     });
     await macStartupPage.goto(ui + '/#/clone');
-    const startupBrand = macStartupPage.getByRole('banner').getByText('VoiceStudio', {
+    const startupBrand = macStartupPage.getByRole('banner').getByText('RedVoice', {
       exact: true,
     });
     await startupBrand.waitFor();
@@ -236,15 +236,15 @@ try {
     await macNotifications.locator('button:has(.lucide-bell)').click();
     await macPage.locator('[data-slot=popover-content][data-open]').waitFor({ state: 'visible' });
     await macPage.keyboard.press('Escape');
-    const brandLink = macSidebar.getByRole('link', { name: /^VoiceStudio v\S+/ });
+    const brandLink = macSidebar.getByRole('link', { name: /^RedVoice v\S+/ });
     const brandBounds = await brandLink.boundingBox();
     // The traffic lights have their own row above the brand.
     assert.ok(brandBounds && brandBounds.y >= 28, 'macOS brand must sit below the traffic lights');
     assert.ok(
       await brandLink
-        .getByText('VoiceStudio', { exact: true })
+        .getByText('RedVoice', { exact: true })
         .evaluate((element) => element.scrollWidth <= element.clientWidth),
-      'macOS titlebar must show the complete VoiceStudio wordmark',
+      'macOS titlebar must show the complete RedVoice wordmark',
     );
     const expandedSettings = macSidebar.getByRole('link', { name: 'Settings', exact: true });
     const expandedDevice = macSidebar.getByRole('button', { name: /^Local:/ });

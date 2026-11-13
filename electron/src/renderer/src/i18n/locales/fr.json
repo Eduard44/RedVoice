@@ -1545,6 +1545,8 @@
     "remote_backend_key_placeholder": "Clé API définie sur l'autre ordinateur",
     "review_mode": "Mode révision",
     "review_mode_desc": "Faites une pause entre les étapes du pipeline afin de pouvoir examiner le résultat ASR/traduction.",
+    "all_features": "Afficher toutes les fonctionnalités",
+    "all_features_desc": "RedVoice n’affiche que le clonage de voix. Activez cette option pour afficher aussi le doublage, les histoires, les livres audio, la transcription, les workflows et les autres espaces.",
     "terminal_command": "Commande de terminal",
     "terminal_command_desc": "Lancez voicestudio dans un terminal pour utiliser les fonctions de VoiceStudio ; sans argument, il ouvre l'application.",
     "terminal_command_add": "Ajouter au terminal",

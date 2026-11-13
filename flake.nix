@@ -646,7 +646,7 @@
             # source of truth. Do the same substitution here.
             # The rest of extraMetadata matters too: Electron names the
             # userData folder after productName (the AppImage's
-            # ~/.config/VoiceStudio) and takes the Linux app id from
+            # ~/.config/<productName>) and takes the Linux app id from
             # desktopName.
             node --input-type=module -e '
               import fs from "node:fs";
@@ -677,13 +677,13 @@
           # (native/desktop-bridge/src/wayland_shortcut_core.rs), so installing
           # this to $out/share/applications is enough for dictation to bind.
           desktopEntry = pkgs.makeDesktopItem {
-            name = "VoiceStudio";
-            desktopName = "VoiceStudio";
+            name = "RedVoice";
+            desktopName = "RedVoice";
             # makeDesktopItem is its own derivation, so a placeholder here
             # would name the desktop item's output, which has no bin/. The
             # install phase rewrites this to the package's absolute launcher.
             exec = "voicestudio";
-            icon = "VoiceStudio";
+            icon = "RedVoice";
             comment = "Local voice cloning studio";
             categories = [ "AudioVideo" "Audio" ];
           };
@@ -877,16 +877,16 @@
             find "$resources" -name '*.pyc' -delete
 
             # ── Desktop integration ───────────────────────────────────────
-            install -Dm644 ${desktopEntry}/share/applications/VoiceStudio.desktop \
-              "$out/share/applications/VoiceStudio.desktop"
-            substituteInPlace "$out/share/applications/VoiceStudio.desktop" \
+            install -Dm644 ${desktopEntry}/share/applications/RedVoice.desktop \
+              "$out/share/applications/RedVoice.desktop"
+            substituteInPlace "$out/share/applications/RedVoice.desktop" \
               --replace-fail "Exec=voicestudio" "Exec=$out/bin/voicestudio"
 
             # icon.png is 512x512; ship it at the sizes desktops actually ask
             # for rather than re-encoding, which would need imagemagick.
             for size in 32 48 64 128 256 512; do
               install -Dm644 electron/build/icons/icon.png \
-                "$out/share/icons/hicolor/$size"x"$size"/apps/VoiceStudio.png
+                "$out/share/icons/hicolor/$size"x"$size"/apps/RedVoice.png
             done
 
             # ── Wrapper ───────────────────────────────────────────────────
@@ -1140,7 +1140,10 @@
               exit 1
             fi
             productName=$(node -p "require('$resources/app/package.json').productName" 2>/dev/null || echo none)
-            if [ "$productName" != "VoiceStudio" ]; then
+            # Electron names userData after productName, matching the AppImage
+            # only while both follow the configured product name.
+            expectedName=$(node -p "require('$resources/config/app.json').productName" 2>/dev/null || echo unknown)
+            if [ "$productName" != "$expectedName" ]; then
               echo "packaged productName is $productName; userData would leave the AppImage's folder"
               exit 1
             fi
@@ -1213,8 +1216,8 @@
 
             # The menu entry must launch this package, not a bare name or the
             # desktop item's own output (which has no bin/).
-            if ! grep -qx "Exec=${app}/bin/voicestudio" ${app}/share/applications/VoiceStudio.desktop; then
-              echo "VoiceStudio.desktop does not exec ${app}/bin/voicestudio"
+            if ! grep -qx "Exec=${app}/bin/voicestudio" ${app}/share/applications/RedVoice.desktop; then
+              echo "RedVoice.desktop does not exec ${app}/bin/voicestudio"
               exit 1
             fi
 

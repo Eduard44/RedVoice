@@ -1401,6 +1401,8 @@
     "language_desc": "인터페이스 언어 선택",
     "review_mode": "검토 모드",
     "review_mode_desc": "ASR/번역 출력을 검토할 수 있도록 파이프라인 단계 사이에 일시 중지합니다.",
+    "all_features": "모든 기능 표시",
+    "all_features_desc": "RedVoice는 음성 복제만 표시합니다. 켜면 더빙, 스토리, 오디오북, 전사, 워크플로 및 기타 작업 공간도 표시됩니다.",
     "terminal_command": "터미널 명령",
     "terminal_command_desc": "터미널에서 voicestudio를 실행하면 VoiceStudio 기능을 사용할 수 있으며, 인수 없이 실행하면 앱이 열립니다.",
     "terminal_command_add": "터미널에 추가",

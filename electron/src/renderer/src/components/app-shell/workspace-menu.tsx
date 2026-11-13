@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { featureVisible, useShowAllFeatures } from '@/lib/redvoice-scope';
 import { setWorkspace } from '@/lib/store/workspace';
 import { cn } from '@/lib/utils';
 import './workspace-menu.css';
@@ -336,6 +337,11 @@ export function WorkspaceNavigation({ compact = false }: { compact?: boolean }) 
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
+  const allFeatures = useShowAllFeatures();
+  const shown = (destinations: Destination[]) =>
+    destinations.filter(([to]) => featureVisible(to, allFeatures));
+  const stories = shown(storyDestinations);
+  const dubbing = shown(dubDestinations);
   return (
     <nav
       data-slot="workspace-navigation"
@@ -348,25 +354,29 @@ export function WorkspaceNavigation({ compact = false }: { compact?: boolean }) 
       <NavigationGroup
         label="nav.voice"
         icon={FingerprintIcon}
-        children={voiceDestinations}
+        children={shown(voiceDestinations)}
         compact={compact}
         pathname={pathname}
       />
-      <NavigationGroup
-        label="nav.stories"
-        icon={AudioLinesIcon}
-        children={storyDestinations}
-        compact={compact}
-        pathname={pathname}
-      />
-      <NavigationGroup
-        label="nav.dub"
-        icon={FilmIcon}
-        children={dubDestinations}
-        compact={compact}
-        pathname={pathname}
-      />
-      {laterDestinations.map((destination) => (
+      {stories.length > 0 && (
+        <NavigationGroup
+          label="nav.stories"
+          icon={AudioLinesIcon}
+          children={stories}
+          compact={compact}
+          pathname={pathname}
+        />
+      )}
+      {dubbing.length > 0 && (
+        <NavigationGroup
+          label="nav.dub"
+          icon={FilmIcon}
+          children={dubbing}
+          compact={compact}
+          pathname={pathname}
+        />
+      )}
+      {shown(laterDestinations).map((destination) => (
         <NavigationLink key={destination[0]} destination={destination} compact={compact} />
       ))}
     </nav>

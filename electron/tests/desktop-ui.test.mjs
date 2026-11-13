@@ -17,7 +17,7 @@ test('launch: window, title and bridge match the real OS', async (t) => {
   await withApp(t, {}, async ({ page }) => {
     await page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
     const facts = await bridgeFacts(page);
-    assert.match(facts.title, /VoiceStudio/);
+    assert.match(facts.title, /RedVoice/);
     assert.equal(facts.platform, process.platform);
     assert.equal(facts.saveData, 'function');
   });

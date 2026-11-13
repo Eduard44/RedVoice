@@ -6,9 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 const electronRoot = resolve(import.meta.dirname, '..');
 const rendererRoot = resolve(electronRoot, 'src/renderer');
-const version = JSON.parse(
-  readFileSync(resolve(electronRoot, '../package.json'), 'utf8'),
-).version;
+const version = JSON.parse(readFileSync(resolve(electronRoot, '../package.json'), 'utf8')).version;
 const backendPort = process.env.OMNIVOICE_PORT || '3900';
 const uiPort = Number(process.env.VOICESTUDIO_SMOKE_PORT) || 3912;
 
@@ -19,6 +17,23 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    {
+      // The smokes and the UI crawler exercise every upstream workspace, so they
+      // start with RedVoice's "Show all features" on unless a test sets it.
+      name: 'redvoice-all-features',
+      configureServer(server) {
+        server.middlewares.use((request, response, next) => {
+          if (request.url?.split('?')[0] !== '/redvoice-smoke-init.js') return next();
+          response.setHeader('Content-Type', 'application/javascript');
+          response.end(
+            "try{if(localStorage.getItem('redvoice.all-features')===null)localStorage.setItem('redvoice.all-features','true')}catch{}",
+          );
+        });
+      },
+      transformIndexHtml: () => [
+        { tag: 'script', attrs: { src: '/redvoice-smoke-init.js' }, injectTo: 'head-prepend' },
+      ],
+    },
     {
       name: 'shared-capture-worklet',
       configureServer(server) {

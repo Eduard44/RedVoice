@@ -42,6 +42,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from core.analytics_transport import SupermetryTransport, user_agent, valid_url
+from core.app_config import ONLINE_SERVICES
 
 logger = logging.getLogger("omnivoice.analytics")
 
@@ -121,6 +122,9 @@ _ENGINE_ID_RE = re.compile(r"[a-z0-9][a-z0-9_.\-]{0,39}")
 
 
 def _kill_switched() -> bool:
+    # A build with online services switched off never sends analytics.
+    if not ONLINE_SERVICES:
+        return True
     return (os.environ.get(_KILL_SWITCH, "") or "").strip().lower() in _OFF_VALUES
 
 

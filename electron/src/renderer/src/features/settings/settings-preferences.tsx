@@ -26,6 +26,7 @@ import {
   useAppearance,
 } from '@/hooks/use-appearance';
 import { INITIAL_DARK_PALETTE } from '@/lib/themes/theme-preferences';
+import { setShowAllFeatures, useShowAllFeatures } from '@/lib/redvoice-scope';
 import { setReviewMode, useReviewMode } from '@/hooks/use-review-mode';
 import { setWorkspace, useWorkspace } from '@/lib/store/workspace';
 import i18n, { APP_LANGUAGE_ITEMS, APP_LANGUAGES, setAppLanguage, type AppLocale } from '@/i18n';
@@ -159,6 +160,7 @@ export function AppearanceResetButton() {
 export function GeneralSettings() {
   const { t } = useTranslation();
   const reviewMode = useReviewMode();
+  const allFeatures = useShowAllFeatures();
   return (
     <SettingsSection icon={Settings2Icon} title={t('preferences.general')}>
       <>
@@ -209,6 +211,17 @@ export function GeneralSettings() {
               </Button>
             ))}
           </div>
+        </SettingsRow>
+        <SettingsRow
+          id="all-features-label"
+          title={t('settings.all_features')}
+          description={t('settings.all_features_desc')}
+        >
+          <Switch
+            aria-labelledby="all-features-label"
+            checked={allFeatures}
+            onCheckedChange={setShowAllFeatures}
+          />
         </SettingsRow>
         <TerminalCommandSettings />
       </>
