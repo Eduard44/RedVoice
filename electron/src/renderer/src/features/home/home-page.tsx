@@ -103,6 +103,11 @@ export function HomePage() {
       description: t('homeUi.dub'),
     },
     {
+      to: '/script',
+      label: t('script.title'),
+      description: t('script.description'),
+    },
+    {
       to: '/stories',
       label: t('nav.stories'),
       description: t('homeUi.stories'),

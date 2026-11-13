@@ -228,6 +228,18 @@ export interface SaveDataRequest {
   suggestedName: string;
 }
 
+export interface SaveFolderRequest {
+  files: Array<{ name: string; data: Uint8Array }>;
+  /** Translated dialog texts. */
+  labels: { title: string; replaceMessage: string; replace: string; cancel: string };
+}
+
+export interface SaveFolderResult {
+  canceled: boolean;
+  path?: string;
+  written?: string[];
+}
+
 export type RepairAgentId = 'codex' | 'claude' | 'opencode' | 'pi';
 export type RepairAgentStatus = 'idle' | 'running' | 'complete' | 'failed' | 'stopped';
 export interface RepairAgentInfo {
@@ -631,6 +643,8 @@ export interface VoiceStudioBridge {
     /** Native "Save as…" for a generated take: main fetches the URL and writes the file. */
     saveAudio(req: SaveAudioRequest): Promise<SaveAudioResult>;
     saveData(req: SaveDataRequest): Promise<SaveAudioResult>;
+    /** Pick a folder and write several files into it; asks before replacing existing ones. */
+    saveToFolder(req: SaveFolderRequest): Promise<SaveFolderResult>;
     /** Reveal an absolute path in Finder / Explorer / file manager. */
     revealPath(path: string): Promise<void>;
     /** Open an absolute path or URL with the OS default handler. */

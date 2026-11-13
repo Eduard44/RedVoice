@@ -45,6 +45,7 @@ import {
   WorkflowIcon,
   WrenchIcon,
   XIcon,
+  ScrollTextIcon,
 } from 'lucide-react';
 import {
   designDraftFromTake,
@@ -122,6 +123,14 @@ export function CommandPalette() {
       group: workspaceGroup,
       icon: AudioLinesIcon,
       run: () => navigate({ to: '/clone' }),
+    },
+    {
+      id: 'script',
+      label: t('script.title'),
+      keywords: [t('script.description'), 'script', 'takes', 'lines'],
+      group: workspaceGroup,
+      icon: ScrollTextIcon,
+      run: () => navigate({ to: '/script' }),
     },
     {
       id: 'stories',
