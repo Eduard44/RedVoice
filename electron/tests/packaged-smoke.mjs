@@ -177,10 +177,10 @@ try {
     await app.evaluate(({ BrowserWindow }) => {
       BrowserWindow.getAllWindows()[0]?.setSize(960, 640);
     });
-    const setupLayout = await window.evaluate(() => {
+    const setupLayout = await window.evaluate((productName) => {
       const header = document.querySelector('header.workspace-titlebar');
       const scroller = document.querySelector('[data-testid="backend-gate-scroll"]');
-      const brand = header?.textContent?.includes(PRODUCT_NAME) ? header : null;
+      const brand = header?.textContent?.includes(productName) ? header : null;
       const headerRect = header?.getBoundingClientRect();
       const scrollRect = scroller?.getBoundingClientRect();
       return {
@@ -192,7 +192,7 @@ try {
         width: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth,
       };
-    });
+    }, PRODUCT_NAME);
     assert.equal(setupLayout.brandVisible, true, 'Setup branding must remain visible');
     assert.equal(setupLayout.headerTop, 0, 'Setup header must stay pinned to the window top');
     assert.equal(
