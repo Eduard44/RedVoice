@@ -6,7 +6,7 @@
 # target in electron/electron-builder.config.mjs and
 # docs/store-publishing/snap-store.md.
 name: voicestudio
-title: VoiceStudio
+title: RedVoice
 summary: Local voice cloning, voice design, dubbing and dictation on your computer.
 description: |
   VoiceStudio is an open-source, fully local studio for voice cloning, voice
