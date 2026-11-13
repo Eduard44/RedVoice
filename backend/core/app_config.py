@@ -55,6 +55,12 @@ if not isinstance(_PORTS, dict):
 
 PRODUCT_NAME = _required_string(_RAW.get("productName"), "productName")
 APP_ID = _required_string(_RAW.get("appId"), "appId")
+if not isinstance(_RAW.get("onlineServices", True), bool):
+    raise TypeError("config/app.json: onlineServices must be true or false")
+#: Whether the upstream project's online services (accounts, update checks,
+#: analytics) are in use. False keeps the app offline except for downloads the
+#: user starts. Defaults to True.
+ONLINE_SERVICES: bool = _RAW.get("onlineServices", True)
 DEFAULT_BACKEND_PORT = _required_port(_PORTS.get("backend"), "backend")
 DEFAULT_WEB_PORT = _required_port(_PORTS.get("web"), "web")
 DEFAULT_ELECTRON_DEV_PORT = _required_port(_PORTS.get("electronDev"), "electronDev")

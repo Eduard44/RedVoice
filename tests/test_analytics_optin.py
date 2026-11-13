@@ -22,6 +22,13 @@ import pytest
 from core import analytics
 
 
+@pytest.fixture(autouse=True)
+def _online_services(monkeypatch):
+    """These tests cover the upstream opt-in analytics, which only exist while
+    online services are on (RedVoice ships with them off)."""
+    monkeypatch.setattr(analytics, "ONLINE_SERVICES", True)
+
+
 SENT: list[dict] = []
 
 

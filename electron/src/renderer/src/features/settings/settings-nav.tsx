@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { onlineServices } from '@/lib/redvoice-scope';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from '@tanstack/react-router';
 import {
@@ -248,20 +249,23 @@ export function SettingsNav({
         )}
       </div>
       <div className="shrink-0 space-y-1.5 border-t border-sidebar-border/50 bg-background/15 p-3">
-        <Link
-          to="/settings/support"
-          title={t('donate.title')}
-          aria-current={
-            location.kind === 'extra' && location.to === '/settings/support' ? 'page' : undefined
-          }
-          className={cn(
-            buttonVariants({ variant: 'ghost' }),
-            'group relative w-full justify-start overflow-hidden border border-primary/20 bg-gradient-to-r from-primary/15 via-primary/8 to-transparent text-foreground shadow-[inset_0_1px_0_rgb(255_255_255/10%)] transition-[border-color,background-color,box-shadow] hover:border-primary/35 hover:from-primary/20 hover:shadow-[0_8px_24px_-16px_var(--primary)] aria-[current=page]:border-primary/40 aria-[current=page]:bg-primary/15',
-          )}
-        >
-          <HeartHandshakeIcon className="size-4 shrink-0 text-primary transition-transform duration-200 group-hover:scale-110 motion-reduce:transition-none" />
-          <NavLabel>{t('donate.title')}</NavLabel>
-        </Link>
+        {/* Donations and sponsors are the upstream project's. */}
+        {onlineServices && (
+          <Link
+            to="/settings/support"
+            title={t('donate.title')}
+            aria-current={
+              location.kind === 'extra' && location.to === '/settings/support' ? 'page' : undefined
+            }
+            className={cn(
+              buttonVariants({ variant: 'ghost' }),
+              'group relative w-full justify-start overflow-hidden border border-primary/20 bg-gradient-to-r from-primary/15 via-primary/8 to-transparent text-foreground shadow-[inset_0_1px_0_rgb(255_255_255/10%)] transition-[border-color,background-color,box-shadow] hover:border-primary/35 hover:from-primary/20 hover:shadow-[0_8px_24px_-16px_var(--primary)] aria-[current=page]:border-primary/40 aria-[current=page]:bg-primary/15',
+            )}
+          >
+            <HeartHandshakeIcon className="size-4 shrink-0 text-primary transition-transform duration-200 group-hover:scale-110 motion-reduce:transition-none" />
+            <NavLabel>{t('donate.title')}</NavLabel>
+          </Link>
+        )}
         <NavLink
           to="/clone"
           label={t('preferences.back')}

@@ -41,12 +41,20 @@ vi.mock('electron', () => ({
 }));
 vi.mock('../backend', () => ({ setBackendOnlyEnv: h.setBackendOnlyEnv }));
 vi.mock('../ipc', () => ({ assertTrustedMainFrame: vi.fn() }));
+
+// These tests cover the upstream online behaviour, which runs when online services are on.
+vi.mock('../../../../config/app-config.mjs', async (importOriginal) => ({
+  ...(await importOriginal<object>()),
+  ONLINE_SERVICES: true,
+}));
 vi.mock('./account-token-bridge', async (importOriginal) => {
   const real = await importOriginal<typeof import('./account-token-bridge')>();
   return {
     ...real,
     startAccountTokenBridge: (...args: Parameters<typeof real.startAccountTokenBridge>) =>
-      h.bridgeFails ? Promise.reject(new Error('port in use')) : real.startAccountTokenBridge(...args),
+      h.bridgeFails
+        ? Promise.reject(new Error('port in use'))
+        : real.startAccountTokenBridge(...args),
   };
 });
 

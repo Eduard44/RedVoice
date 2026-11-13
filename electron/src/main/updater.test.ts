@@ -76,6 +76,12 @@ vi.mock('node:fs', () => ({ ...mocks.fs, default: mocks.fs }));
 
 vi.mock('./trusted-renderer', () => ({ isTrustedRenderer: mocks.trusted }));
 
+// These tests cover the upstream online behaviour, which runs when online services are on.
+vi.mock('../../../config/app-config.mjs', async (importOriginal) => ({
+  ...(await importOriginal<object>()),
+  ONLINE_SERVICES: true,
+}));
+
 import {
   classifyUpdateError,
   compareAppVersions,

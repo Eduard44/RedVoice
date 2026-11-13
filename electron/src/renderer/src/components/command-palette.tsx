@@ -20,6 +20,7 @@ import { KeyboardCheatsheet } from '@/components/keyboard-cheatsheet';
 import { useTheme } from '@/hooks/use-theme';
 import { formatRelative } from '@/features/clone/format';
 import { commandMatches, recentTakes, takeLength, type CommandItem } from './command-palette-items';
+import { featureVisible, useShowAllFeatures } from '@/lib/redvoice-scope';
 import {
   AudioLinesIcon,
   BlocksIcon,
@@ -104,7 +105,8 @@ export function CommandPalette() {
   const personaGroup = t('nav.persona');
   const takeGroup = t('clone.history_title');
   const modifier = isMac() ? '⌘' : 'Ctrl';
-  const source: CommandItem[] = [
+  const allFeatures = useShowAllFeatures();
+  const candidates: CommandItem[] = [
     {
       id: 'home',
       label: t('app.name'),
@@ -350,6 +352,24 @@ export function CommandPalette() {
       },
     })),
   ];
+  // Workspaces outside RedVoice v1 are offered only when the user turned them on.
+  const workspaceRoutes: Record<string, string> = {
+    stories: '/stories',
+    dub: '/dub',
+    batch: '/batch',
+    gallery: '/gallery',
+    transcriptions: '/transcriptions',
+    workflows: '/workflows',
+    calls: '/calls',
+    design: '/design',
+    audiobook: '/audiobook',
+    tools: '/tools',
+    integrations: '/integrations',
+    pro: '/pro',
+  };
+  const source = candidates.filter(
+    ({ id }) => !(id in workspaceRoutes) || featureVisible(workspaceRoutes[id]!, allFeatures),
+  );
   // Settings pages are searchable but stay out of the default list.
   const needle = query.trim().toLocaleLowerCase();
   const settingsItems: CommandItem[] = needle

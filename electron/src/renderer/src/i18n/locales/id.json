@@ -1543,6 +1543,8 @@
     "audio_tools_open": "Buka alat Audio",
     "review_mode": "Modus tinjauan",
     "review_mode_desc": "Jeda di antara tahapan alur sehingga Anda dapat meninjau ASR/output terjemahan.",
+    "all_features": "Tampilkan semua fitur",
+    "all_features_desc": "RedVoice hanya menampilkan kloning suara. Aktifkan untuk juga menampilkan sulih suara, cerita, buku audio, transkripsi, alur kerja, dan ruang kerja lainnya.",
     "terminal_command": "Perintah terminal",
     "terminal_command_desc": "Jalankan voicestudio di terminal untuk memakai fitur VoiceStudio; tanpa argumen, perintah ini membuka aplikasi.",
     "terminal_command_add": "Tambahkan ke terminal",

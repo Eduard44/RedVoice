@@ -106,7 +106,7 @@ import {
 } from './setup-progress';
 import { SetupDownloadReporter, inFlightDownloadBytes } from './setup-downloads';
 import { scrubText } from '../shared/utils/scrub';
-import { DEFAULT_BACKEND_PORT } from '../../../config/app-config.mjs';
+import { DEFAULT_BACKEND_PORT, ONLINE_SERVICES } from '../../../config/app-config.mjs';
 
 const DEFAULT_BUDGET_S = 300;
 const READY_POLL_MS = 500;
@@ -1362,7 +1362,10 @@ export class BackendSupervisor extends EventEmitter<{
     }
     if (this.cpuSetupAvailable()) status.cpuSetupAvailable = true;
     if (this.cpuRestartAvailable()) status.cpuRestartAvailable = true;
-    if (/^(1|true|yes|on)$/i.test((process.env.OMNIVOICE_ANALYTICS_DISABLED ?? '').trim()))
+    if (
+      !ONLINE_SERVICES ||
+      /^(1|true|yes|on)$/i.test((process.env.OMNIVOICE_ANALYTICS_DISABLED ?? '').trim())
+    )
       status.analyticsDisabled = true;
     if (this.diagnosis) status.diagnosis = this.diagnosis;
     if (this.exitCode !== undefined) status.exitCode = this.exitCode;

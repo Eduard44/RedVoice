@@ -13,6 +13,7 @@ import { patchCloneSettings } from '@/lib/store/clone-settings';
 import { selectCloneProfile } from '@/lib/store/reference';
 import { blankLongformDraft, editLongform } from '@/features/longform/longform-session';
 import { projectLibrary, type LongformProject } from '@/features/longform/project-library';
+import { featureVisible, useShowAllFeatures } from '@/lib/redvoice-scope';
 import { openDubProject } from '@/features/dub/dub-session';
 import type { DubProject } from '@/features/projects/project-format';
 import { Link, useNavigate } from '@tanstack/react-router';
@@ -84,7 +85,8 @@ export function HomePage() {
     queryKey: ['longform-projects'],
     queryFn: projectLibrary.list,
   });
-  const destinations: Destination[] = [
+  const allFeatures = useShowAllFeatures();
+  const everyDestination: Destination[] = [
     {
       to: '/clone',
       label: t('nav.clone'),
@@ -131,6 +133,7 @@ export function HomePage() {
       description: t('tools.desc'),
     },
   ];
+  const destinations = everyDestination.filter(({ to }) => featureVisible(to, allFeatures));
   const recentProjects = [
     ...dubProjects.map((project) => ({
       kind: 'dub' as const,

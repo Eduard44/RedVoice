@@ -18,6 +18,7 @@ import { startLoopback } from './loopback';
 import { OidcClient } from './oidc';
 import { RefreshTokenStore } from './token-store';
 import { setBackendOnlyEnv } from '../backend';
+import { ONLINE_SERVICES } from '../../../../config/app-config.mjs';
 
 interface StartOptions {
   getMainWindow: () => BrowserWindow | null;
@@ -50,7 +51,7 @@ async function wireAccount(opts: StartOptions): Promise<() => void> {
     requested: process.env.VOICESTUDIO_CLOUD_ENV,
     clientId: process.env.VOICESTUDIO_CLOUD_CLIENT_ID,
   });
-  const available = cloudAccountsAvailable(env);
+  const available = ONLINE_SERVICES && cloudAccountsAvailable(env);
   const switches = new CloudSwitchStore(join(app.getPath('userData'), 'cloud-switches.json'));
   const allowed = () => available && switches.get().accountEnabled;
   const activity = new CloudActivity({ isAllowed: allowed, origins: cloudOrigins(env) });

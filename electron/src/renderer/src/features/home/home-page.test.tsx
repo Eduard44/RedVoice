@@ -26,6 +26,11 @@ vi.mock('@/components/app-shell/workspace-header', () => ({
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
+// These tests cover the full upstream navigation, shown when all features are on.
+vi.mock('@/lib/redvoice-scope', async (importOriginal) => ({
+  ...(await importOriginal<object>()),
+  useShowAllFeatures: () => true,
+}));
 import { HomePage } from './home-page';
 import { homeContributors } from './home-contributors-data';
 import en from '@/i18n/locales/en.json';

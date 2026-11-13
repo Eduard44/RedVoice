@@ -1543,6 +1543,8 @@
     "audio_tools_manual_hint": "更喜歡您的套件管理器？自行安裝 FFmpeg（macOS：brew install ffmpeg · Debian/Ubuntu：sudo apt install ffmpeg · Windows：winget install ffmpeg）並按使用系統副本。該應用程式從未在系統範圍內安裝任何內容。",
     "review_mode": "複習模式",
     "review_mode_desc": "在管道階段之間暫停，以便您可以查看 ASR/翻譯輸出。",
+    "all_features": "顯示全部功能",
+    "all_features_desc": "RedVoice 預設只顯示聲音複製。開啟後還會顯示配音、故事、有聲書、轉錄、工作流程和其他工作區。",
     "terminal_command": "終端機指令",
     "terminal_command_desc": "在終端機中執行 voicestudio 即可使用 VoiceStudio 的功能；不帶參數執行會開啟應用程式。",
     "terminal_command_add": "加入終端機",

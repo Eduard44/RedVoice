@@ -1543,6 +1543,8 @@
     "remote_backend_confirm_title": "未検証のバックエンドを使用しますか?",
     "review_mode": "レビューモード",
     "review_mode_desc": "パイプライン ステージ間で一時停止して、ASR/翻訳出力を確認できるようにします。",
+    "all_features": "すべての機能を表示",
+    "all_features_desc": "RedVoice は音声クローンのみを表示します。オンにすると、吹き替え、ストーリー、オーディオブック、文字起こし、ワークフローなどのワークスペースも表示されます。",
     "terminal_command": "ターミナルコマンド",
     "terminal_command_desc": "ターミナルで voicestudio を実行すると VoiceStudio の機能を使えます。引数なしで実行するとアプリが開きます。",
     "terminal_command_add": "ターミナルに追加",

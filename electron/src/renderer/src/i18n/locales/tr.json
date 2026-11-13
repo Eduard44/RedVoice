@@ -1543,6 +1543,8 @@
     "remote_backend_hint": "Diğer makinedeki arka ucu <1> ile başlatınOMNIVOICE_API_KEY</1> ayarlayın, kuyruk ağınız üzerinden ona ulaşın ve bu uygulamayı ona doğrultun.",
     "review_mode": "İnceleme modu",
     "review_mode_desc": "ASR / çeviri çıktısını gözden geçirebilmek için ardışık düzen aşamaları arasında duraklayın.",
+    "all_features": "Tüm özellikleri göster",
+    "all_features_desc": "RedVoice yalnızca ses klonlamayı gösterir. Seslendirme, hikâyeler, sesli kitaplar, transkripsiyon, iş akışları ve diğer alanları da göstermek için bunu açın.",
     "terminal_command": "Terminal komutu",
     "terminal_command_desc": "VoiceStudio özelliklerini kullanmak için terminalde voicestudio çalıştırın; argümansız çalıştırıldığında uygulamayı açar.",
     "terminal_command_add": "Terminale ekle",

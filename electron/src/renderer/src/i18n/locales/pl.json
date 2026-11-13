@@ -1557,6 +1557,8 @@
     "remote_backend_probe_fail": "Przegrany -{{detail}}",
     "review_mode": "Tryb recenzji",
     "review_mode_desc": "Wstrzymaj się między etapami potoku, aby móc przejrzeć wyniki ASR/tłumaczenia.",
+    "all_features": "Pokaż wszystkie funkcje",
+    "all_features_desc": "RedVoice pokazuje tylko klonowanie głosu. Włącz, aby pokazać także dubbing, historie, audiobooki, transkrypcję, przepływy pracy i inne obszary.",
     "terminal_command": "Polecenie terminala",
     "terminal_command_desc": "Uruchom voicestudio w terminalu, aby korzystać z funkcji VoiceStudio; bez argumentów otwiera aplikację.",
     "terminal_command_add": "Dodaj do terminala",

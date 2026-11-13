@@ -1543,6 +1543,8 @@
     "remote_backend_confirm_unverified": "Denna backend-URL har inte klarat ett anslutningstest. Spara den och ladda om ändå? Om det är fel kan appen inte nå någon backend förrän du ändrar tillbaka den här.",
     "review_mode": "Granskningsläge",
     "review_mode_desc": "Pausa mellan stegen i pipeline så att du kan granska ASR/översättningsutdata.",
+    "all_features": "Visa alla funktioner",
+    "all_features_desc": "RedVoice visar bara röstkloning. Slå på detta för att även visa dubbning, berättelser, ljudböcker, transkribering, arbetsflöden och de andra arbetsytorna.",
     "terminal_command": "Terminalkommando",
     "terminal_command_desc": "Kör voicestudio i en terminal för att använda VoiceStudios funktioner; utan argument öppnas appen.",
     "terminal_command_add": "Lägg till i terminalen",

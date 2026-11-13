@@ -1543,6 +1543,8 @@
     "audio_tools_desc": "Công cụ truyền thông (FFmpeg, FFprobe) và trình tải xuống video (yt-dlp) mà ứng dụng quản lý cho bạn.",
     "review_mode": "Chế độ xem lại",
     "review_mode_desc": "Tạm dừng giữa các giai đoạn quy trình để bạn có thể xem lại đầu ra ASR/bản dịch.",
+    "all_features": "Hiển thị tất cả tính năng",
+    "all_features_desc": "RedVoice chỉ hiển thị nhân bản giọng nói. Bật tùy chọn này để hiển thị thêm lồng tiếng, truyện, sách nói, chép lời, quy trình và các không gian làm việc khác.",
     "terminal_command": "Lệnh terminal",
     "terminal_command_desc": "Chạy voicestudio trong terminal để dùng các tính năng của VoiceStudio; không có tham số thì lệnh sẽ mở ứng dụng.",
     "terminal_command_add": "Thêm vào terminal",

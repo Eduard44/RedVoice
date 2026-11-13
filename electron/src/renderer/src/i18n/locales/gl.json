@@ -1734,6 +1734,8 @@
     "language_desc": "Escolla o idioma que utiliza a interface.",
     "review_mode": "Modo de revisión",
     "review_mode_desc": "Fai unha pausa entre as etapas do pipeline para que poidas revisar a saída de ASR/tradución.",
+    "all_features": "Amosar todas as funcións",
+    "all_features_desc": "RedVoice só amosa a clonación de voz. Actívao para amosar tamén a dobraxe, as historias, os audiolibros, a transcrición, os fluxos de traballo e os demais espazos.",
     "terminal_command": "Orde de terminal",
     "terminal_command_desc": "Executa voicestudio nun terminal para usar as funcións de VoiceStudio; sen argumentos abre a aplicación.",
     "terminal_command_add": "Engadir ao terminal",
