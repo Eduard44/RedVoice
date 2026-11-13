@@ -62,16 +62,26 @@ The first setup downloads the Python packages (several GB) and takes a while. Re
 
 ## 5. Test A: Radeon through Vulkan
 
-1. A prompt **Use your GPU for faster speech?** should appear. Note whether it does and which GPU and quant it names. Press **Use GPU** and accept the model licence.
+1. A prompt **Use your GPU for faster speech?** should appear. Note whether it does and which GPU and quant it names. Press **Use GPU** and accept the model licence. Let the download finish.
 2. Settings › Models › OmniVoice GGUF should show *Auto: (quant) (Vulkan – AMD Radeon RX 9070 XT)*.
-3. Go to Clone, pick the demo voice and generate this sentence:
-   *"The quick brown fox jumps over the lazy dog, and the editor cuts it right on the beat."*
-4. Generate it three times. Note the time for the first and the third (the first includes loading). Watch **GPU** in Task Manager during generation.
-5. Listen: note anything wrong with the sound.
+3. Leave the app running. In a **second** PowerShell window, in the RedVoice folder, run:
+
+   ```powershell
+   uv run --no-project python scripts/redvoice/measure_tts.py --engine omnivoice-gguf --save-dir takes-vulkan
+   ```
+
+   It speaks a test sentence three times and prints a table. The first run includes loading the model; the others are the working speed. **RTF** is seconds of work per second of speech: below 1 is faster than real time. Watch **GPU** in Task Manager while it runs.
+4. Listen to the files in `takes-vulkan` and note anything wrong with the sound.
 
 ## 6. Test B: CPU, to compare
 
-Settings › Performance › Processing device: **CPU**. Generate the same sentence three times and note the times. Set it back to **Auto (recommended)** afterwards.
+Settings › Performance › Processing device: **CPU**. On CPU the GGUF engine uses its smaller CPU model (Q4_K_M): if Settings › Models › OmniVoice GGUF shows it as not downloaded, download it there first. Then:
+
+```powershell
+uv run --no-project python scripts/redvoice/measure_tts.py --engine omnivoice-gguf --save-dir takes-cpu
+```
+
+Set it back to **Auto (recommended)** afterwards.
 
 ## 7. Test C: ROCm (optional, longer)
 
@@ -84,7 +94,11 @@ bun run setup:api
 bun run dev
 ```
 
-In Settings › Models choose the standard **OmniVoice** engine, generate the same sentence three times and note the times. Settings › Performance › GPU acceleration should name the Radeon.
+Settings › Performance › GPU acceleration should name the Radeon. In the second window:
+
+```powershell
+uv run --no-project python scripts/redvoice/measure_tts.py --engine omnivoice --save-dir takes-rocm
+```
 
 To go back to the normal setup:
 
@@ -93,6 +107,8 @@ $env:OMNIVOICE_TORCH_VARIANT = 'cpu'
 bun run setup:api
 ```
 
+If the script says it cannot reach RedVoice, check the app is running. If Windows reserved port 3900, RedVoice picked the next free port: add `--base http://127.0.0.1:3901` (or the port shown in the app's logs).
+
 ## Results to send back
 
 | Item | Result |
@@ -100,10 +116,10 @@ bun run setup:api
 | AMD driver version | |
 | `vulkaninfo` present, lists the RX 9070 XT? | |
 | GPU prompt appeared? GPU and quant it named | |
-| Vulkan: first / third generation time | |
+| Vulkan: the script's summary line | |
 | Vulkan: GPU busy in Task Manager? | |
-| CPU: first / third generation time | |
-| ROCm: setup worked? first / third time | |
+| CPU: the script's summary line | |
+| ROCm: setup worked? the script's summary line | |
 | Sound problems (any path) | |
 
-If something fails, copy the error text and the last lines of Settings › Logs.
+Paste the three summary lines the script printed, plus the table above. If something fails, copy the error text and the last lines of Settings › Logs.
