@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import { matchLocale } from './locale-match';
+import { productNamePostProcessor } from './product-name';
 import { onStorageKey } from '@/lib/storage-events';
 
 export const SUPPORTED_LOCALES = [
@@ -83,7 +84,9 @@ const selectedLocale = initialLocale();
 
 void i18next
   .use(initReactI18next)
+  .use(productNamePostProcessor)
   .init({
+    postProcess: [productNamePostProcessor.name],
     resources: { en: { translation: en } },
     lng: selectedLocale,
     fallbackLng: 'en',
