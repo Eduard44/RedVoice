@@ -85,7 +85,7 @@ Learned while working (milestones 1 and 2):
 |---|---|
 | 1. Repo setup | Done (PR #1) |
 | 2. Rebrand and trim the UI | Done (PRs #2, #3, #4): RedVoice name, RV placeholder logo, Roboto font, dark red palette, v1 view, online services off |
-| 3. AMD path | Code paths exist upstream (see above); measuring on the test PC is next |
+| 3. AMD path | Code paths exist upstream (see above). `scripts/redvoice/measure_tts.py` times each path; measuring on the test PC is next |
 | 4. Script to per-line takes | Not started |
 | 5. Voice timed to subtitles | Not started |
 | 6. Send VO to Resolve timeline | Not started |
