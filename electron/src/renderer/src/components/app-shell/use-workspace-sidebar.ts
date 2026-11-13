@@ -4,6 +4,7 @@ import { setWorkspace, useWorkspace } from '@/lib/store/workspace';
 
 const SECONDARY_ROUTES = new Set([
   '/stories',
+  '/script',
   '/audiobook',
   '/tools',
   '/batch',

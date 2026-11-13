@@ -14,6 +14,16 @@ export function HomeFeatureIcon({ destination }: { destination: string }) {
             </g>
           </>
         );
+      case '/script':
+        return (
+          <>
+            <path d="M6 4h14l4 4v20H6Z" />
+            <path d="M10 11h10m-10 4h10m-10 4h6" opacity=".65" />
+            <g className="home-svg-wave home-svg-delay">
+              <path d="M24 18v6m3-9v12" />
+            </g>
+          </>
+        );
       case '/design':
         return (
           <>

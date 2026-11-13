@@ -10,6 +10,7 @@ import {
 } from './media-authorization';
 import { isTrustedRenderer } from './trusted-renderer';
 import { replaceFile } from './replace-file';
+import { assertSaveFolderRequest, saveFilesToFolder } from './save-folder';
 import { encodeDownloadFailure, MAX_FAILURE_BODY_CHARS } from '../shared/download-failure';
 import { homedir, tmpdir } from 'node:os';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
@@ -124,6 +125,7 @@ export const CHANNELS = {
   maintenancePurgeUninstall: 'maintenance:purgeUninstall',
   filesSaveAudio: 'files:saveAudio',
   filesSaveData: 'files:saveData',
+  filesSaveToFolder: 'files:saveToFolder',
   filesRevealPath: 'files:revealPath',
   filesOpenExternal: 'files:openExternal',
   windowMinimize: 'window:minimize',
@@ -857,6 +859,44 @@ export function registerIpc(
     if (picked.canceled || !picked.filePath) return { canceled: true };
     await withSecurityScopedBookmark(picked.bookmark, () => replaceFile(picked.filePath, req.data));
     return { canceled: false, path: picked.filePath };
+  });
+
+  ipcMain.handle(CHANNELS.filesSaveToFolder, async (event, raw: unknown) => {
+    const owner = windowFor(event) ?? getMainWindow();
+    assertTrustedMainFrame(event, owner);
+    const req = assertSaveFolderRequest(raw);
+    let bookmark: string | undefined;
+    return saveFilesToFolder(
+      req,
+      {
+        pickFolder: async (title) => {
+          const picked = await dialog.showOpenDialog(
+            owner,
+            securityScopedDialogOptions<Electron.OpenDialogOptions>({
+              title,
+              properties: ['openDirectory', 'createDirectory'],
+            }),
+          );
+          bookmark = picked.bookmarks?.[0];
+          return picked.canceled ? null : (picked.filePaths[0] ?? null);
+        },
+        confirmReplace: async (labels, names) => {
+          const shown = names.slice(0, 12).join('\n');
+          const more = names.length > 12 ? `\n… (+${names.length - 12})` : '';
+          const choice = await dialog.showMessageBox(owner, {
+            type: 'question',
+            buttons: [labels.replace, labels.cancel],
+            defaultId: 1,
+            cancelId: 1,
+            title: labels.title,
+            message: labels.replaceMessage,
+            detail: shown + more,
+          });
+          return choice.response === 0;
+        },
+      },
+      (path, data) => withSecurityScopedBookmark(bookmark, () => replaceFile(path, data)),
+    );
   });
 
   ipcMain.handle(CHANNELS.filesRevealPath, (_event, raw: unknown) => {

@@ -7,7 +7,7 @@ import { onStorageKey } from '@/lib/storage-events';
  * come with the upstream app stay in the code and stay reachable, but are left
  * out of the navigation until the user turns them on in Settings.
  */
-const CORE_ROUTES = new Set(['/', '/clone', '/personas', '/projects', '/settings']);
+const CORE_ROUTES = new Set(['/', '/clone', '/script', '/personas', '/projects', '/settings']);
 const KEY = 'redvoice.all-features';
 
 /** False when this build keeps the upstream project's online services off. */

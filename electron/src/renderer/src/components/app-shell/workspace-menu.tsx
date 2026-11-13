@@ -16,6 +16,7 @@ import {
   ChevronRightIcon,
   BlocksIcon,
   WorkflowIcon,
+  ScrollTextIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -27,6 +28,7 @@ import './workspace-menu.css';
 type Destination = readonly [
   to:
     | '/clone'
+    | '/script'
     | '/stories'
     | '/audiobook'
     | '/projects'
@@ -48,6 +50,7 @@ const openSaved = () => setWorkspace({ libraryOpen: true, libraryTab: 'voices' }
 
 const voiceDestinations: Destination[] = [
   ['/clone', 'nav.clone_short', FingerprintIcon, openSaved],
+  ['/script', 'script.title', ScrollTextIcon],
   ['/design', 'designWorkspace.title', WandSparklesIcon],
   ['/personas', 'nav.saved', UsersRoundIcon, openSaved],
   ['/gallery', 'nav.gallery', LibraryIcon],
@@ -75,6 +78,7 @@ const iconClass =
 
 const iconMotion: Record<Destination[0], string> = {
   '/clone': 'pulse',
+  '/script': 'nudge',
   '/design': 'tilt',
   '/personas': 'nudge',
   '/gallery': 'lift',

@@ -1,0 +1,29 @@
+# RedVoice: Script page
+
+Turn a voice-over script into one clip per line, with several takes of each line to choose from, and export them as files ready for a video timeline.
+
+## Use it
+
+1. Open **Script** from the sidebar (under the voice group) or the home page.
+2. Pick a **Voice** (a saved voice from Clone), the **Language** and the **Takes per line** (3 by default, up to 10).
+3. Paste the script and press **Update lines**. Choose **Each line is a clip** (default) or **Each sentence is a clip**.
+4. Press **Generate takes**. Each line gets its takes one after another, each with a different random seed, so the takes differ. **Stop** ends the run after the current take.
+5. Press **Play** on a take to hear it, and the tick to use it. Without a pick, a line uses its first take.
+6. Per line: **+** adds one more take, the circular arrow throws away that line's takes and makes new ones. Other lines are not touched.
+7. **Export chosen takes** writes one file per line; **Export all takes** writes every take. Pick a folder; if files with the same names exist, RedVoice asks before replacing them.
+
+## Files
+
+- Names: `line-03_take-02.wav`, numbered by position in the script and padded so they sort in order (`line-120_...` past 99 lines).
+- Format: WAV, 48 kHz, 24-bit PCM, the format video timelines use. The model renders at 24 kHz; RedVoice resamples with a band-limited filter and adds dither below the 24-bit step.
+- Takes use the Clone page's quality settings (sampling steps, guidance, denoise and so on).
+
+## Good to know
+
+- Editing the script and pressing **Update lines** keeps the takes of every line whose text did not change.
+- The script, picks and take list are saved on this computer and come back when you reopen the page. The audio lives in RedVoice's generation history; if history pruning has removed a take, export names the line to regenerate.
+- Exporting to a folder needs the desktop app.
+
+## Code
+
+`electron/src/renderer/src/features/script/` (page, model, generation runner, WAV export) and `electron/src/main/save-folder.ts` (the folder save behind `files.saveToFolder`).

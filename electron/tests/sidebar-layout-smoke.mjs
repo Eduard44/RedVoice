@@ -73,7 +73,8 @@ try {
     [960, 600],
   ]) {
     await page.setViewportSize({ width, height });
-    assert.equal(await navigation.getByRole('link').count(), 9);
+    // Upstream's nine destinations plus RedVoice's Script page.
+    assert.equal(await navigation.getByRole('link').count(), 10);
     assert.equal(await page.getByRole('menu').count(), 0);
     const bounds = await navigation.boundingBox();
     assert.ok(bounds && bounds.width <= (await sidebar.boundingBox()).width);
@@ -316,7 +317,7 @@ try {
     await macPage.close();
   }
   console.log(
-    'Sidebar compact/expanded, macOS titlebar clearance, 9 destinations, 6 engine links, visible models, non-duplicated Profiles, settings visibility and navigation passed. ' +
+    'Sidebar compact/expanded, macOS titlebar clearance, 10 destinations, 6 engine links, visible models, non-duplicated Profiles, settings visibility and navigation passed. ' +
       out,
   );
 } finally {
