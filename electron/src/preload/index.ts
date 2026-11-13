@@ -4,6 +4,7 @@ import type {
   DataRelocationStage,
   SaveAudioRequest,
   SaveAudioResult,
+  SaveFolderResult,
   UpdateState,
   UpdateReleaseInfo,
   VoiceStudioBridge,
@@ -178,6 +179,8 @@ const bridge: VoiceStudioBridge = {
     saveAudio: (req: SaveAudioRequest) =>
       ipcRenderer.invoke('files:saveAudio', req) as Promise<SaveAudioResult>,
     saveData: (req) => ipcRenderer.invoke('files:saveData', req) as Promise<SaveAudioResult>,
+    saveToFolder: (req) =>
+      ipcRenderer.invoke('files:saveToFolder', req) as Promise<SaveFolderResult>,
     revealPath: (path) => ipcRenderer.invoke('files:revealPath', path) as Promise<void>,
     openExternal: (url) => ipcRenderer.invoke('files:openExternal', url) as Promise<void>,
   },

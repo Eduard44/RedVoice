@@ -1,7 +1,13 @@
 import { getBridge } from '@/components/bridge';
 import { errorFromResponse } from '@/lib/api/client';
 import { decodeDownloadFailure, stripIpcErrorPrefix } from '@shared/download-failure';
-import type { SaveAudioRequest, SaveAudioResult, SaveDataRequest } from '../../../preload/index.d';
+import type {
+  SaveAudioRequest,
+  SaveAudioResult,
+  SaveDataRequest,
+  SaveFolderRequest,
+  SaveFolderResult,
+} from '../../../preload/index.d';
 
 /**
  * Turn a rejected native save into the error a direct backend request would
@@ -35,6 +41,17 @@ export async function saveNativeData(req: SaveDataRequest): Promise<SaveAudioRes
   if (!bridge) return null;
   try {
     return await bridge.files.saveData(req);
+  } catch (error) {
+    throw await nativeSaveError(error);
+  }
+}
+
+/** Native "pick a folder, write these files" with the same error shape; null outside the desktop app. */
+export async function saveNativeFolder(req: SaveFolderRequest): Promise<SaveFolderResult | null> {
+  const bridge = getBridge();
+  if (!bridge) return null;
+  try {
+    return await bridge.files.saveToFolder(req);
   } catch (error) {
     throw await nativeSaveError(error);
   }

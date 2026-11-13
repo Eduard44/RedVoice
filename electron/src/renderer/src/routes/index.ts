@@ -53,6 +53,7 @@ const SettingsPage = lazyRouteComponent(
   'SettingsPage',
 );
 const ProPage = lazyRouteComponent(() => import('@/features/pro/pro-page'), 'ProPage');
+const ScriptPage = lazyRouteComponent(() => import('@/features/script/script-page'), 'ScriptPage');
 
 export const rootRoute = createRootRoute({ component: AppShell });
 
@@ -69,6 +70,12 @@ export const savedVoicesRoute = createRoute({
     () => import('@/features/clone/saved-voices-page'),
     'SavedVoicesPage',
   ),
+});
+
+export const scriptRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/script',
+  component: ScriptPage,
 });
 
 export const cloneRoute = createRoute({
@@ -275,6 +282,7 @@ export const diagnosticsRoute = createRoute({
   component: SettingsPage,
 });
 export const routeTree = rootRoute.addChildren([
+  scriptRoute,
   diagnosticsRoute,
   openApiRoute,
   updatesRoute,

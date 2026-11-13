@@ -136,7 +136,7 @@ it('gives velixio the same hover card as the creator', async () => {
   );
 });
 
-it('separates three primary creation actions and describes all nine destinations', () => {
+it('separates three primary creation actions and describes all ten destinations', () => {
   render(<HomePage />);
   const clone = screen.getByRole('link', { name: /nav.clone/ });
   const primary = clone.parentElement!;
@@ -145,9 +145,11 @@ it('separates three primary creation actions and describes all nine destinations
     '/design',
     '/dub',
   ]);
-  expect(primary.nextElementSibling?.querySelectorAll('a')).toHaveLength(6);
+  // RedVoice adds Script to the nine upstream destinations.
+  expect(primary.nextElementSibling?.querySelectorAll('a')).toHaveLength(7);
+  expect(screen.getByRole('link', { name: /script.title/ })).toHaveAttribute('href', '/script');
   const icons = document.querySelectorAll('svg.home-feature-svg');
-  expect(icons).toHaveLength(9);
+  expect(icons).toHaveLength(10);
   icons.forEach((icon) => expect(icon).toHaveAttribute('aria-hidden', 'true'));
   for (const key of ['design', 'dub', 'stories', 'audiobook', 'transcribe']) {
     expect(screen.getByText('homeUi.' + key)).toBeVisible();
