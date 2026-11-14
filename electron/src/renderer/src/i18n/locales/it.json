@@ -4827,6 +4827,14 @@
     "take_missing": "Un take della riga {{number}} non è più disponibile. Rigenera la riga.",
     "no_voice": "Scegli prima una voce.",
     "nothing_to_export": "Genera prima qualche take.",
-    "failed": "Riga {{number}} non riuscita: {{error}}"
+    "failed": "Riga {{number}} non riuscita: {{error}}",
+    "import_subtitles": "Importa sottotitoli",
+    "timed_to": "Sincronizzato con {{name}}",
+    "remove_timing": "Rimuovi sincronizzazione",
+    "fit_timing": "Adatta i take ai sottotitoli",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s troppo lungo",
+    "import_failed": "Nessun sottotitolo con tempi trovato in {{name}}.",
+    "timed_locked": "Il copione viene dal file dei sottotitoli. Rimuovi la sincronizzazione per modificarlo come testo."
   }
 }

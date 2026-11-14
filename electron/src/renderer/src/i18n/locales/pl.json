@@ -4853,6 +4853,14 @@
     "take_missing": "Ujęcie wiersza {{number}} nie jest już dostępne. Wygeneruj wiersz ponownie.",
     "no_voice": "Najpierw wybierz głos.",
     "nothing_to_export": "Najpierw wygeneruj kilka ujęć.",
-    "failed": "Wiersz {{number}} nie powiódł się: {{error}}"
+    "failed": "Wiersz {{number}} nie powiódł się: {{error}}",
+    "import_subtitles": "Importuj napisy",
+    "timed_to": "Zsynchronizowano z {{name}}",
+    "remove_timing": "Usuń synchronizację",
+    "fit_timing": "Dopasuj ujęcia do czasu napisów",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "O {{seconds}} s za długie",
+    "import_failed": "W pliku {{name}} nie znaleziono napisów z czasami.",
+    "timed_locked": "Scenariusz pochodzi z pliku napisów. Usuń synchronizację, aby edytować go jako tekst."
   }
 }

@@ -4825,6 +4825,14 @@
     "take_missing": "En tagning av rad {{number}} finns inte längre. Skapa om raden.",
     "no_voice": "Välj en röst först.",
     "nothing_to_export": "Skapa några tagningar först.",
-    "failed": "Rad {{number}} misslyckades: {{error}}"
+    "failed": "Rad {{number}} misslyckades: {{error}}",
+    "import_subtitles": "Importera undertexter",
+    "timed_to": "Tidsatt efter {{name}}",
+    "remove_timing": "Ta bort tidsättning",
+    "fit_timing": "Anpassa tagningar till undertexternas tider",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s för lång",
+    "import_failed": "Inga undertexter med tider hittades i {{name}}.",
+    "timed_locked": "Manuset kommer från undertextfilen. Ta bort tidsättningen för att redigera det som text."
   }
 }

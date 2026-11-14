@@ -4877,6 +4877,14 @@
     "take_missing": "لم يعد أحد تسجيلات السطر {{number}} متاحًا. أعد إنشاء السطر.",
     "no_voice": "اختر صوتًا أولًا.",
     "nothing_to_export": "أنشئ بعض التسجيلات أولًا.",
-    "failed": "فشل السطر {{number}}: {{error}}"
+    "failed": "فشل السطر {{number}}: {{error}}",
+    "import_subtitles": "استيراد الترجمة",
+    "timed_to": "متزامن مع {{name}}",
+    "remove_timing": "إزالة التوقيت",
+    "fit_timing": "مطابقة التسجيلات لتوقيت الترجمة",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} ث",
+    "over": "أطول بـ {{seconds}} ث",
+    "import_failed": "لم يتم العثور على ترجمات بتوقيت في {{name}}.",
+    "timed_locked": "النص مأخوذ من ملف الترجمة. أزل التوقيت لتحريره كنص."
   }
 }

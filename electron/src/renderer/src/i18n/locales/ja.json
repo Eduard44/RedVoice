@@ -4825,6 +4825,14 @@
     "take_missing": "{{number}}行目のテイクが見つかりません。行を再生成してください。",
     "no_voice": "先に音声を選んでください。",
     "nothing_to_export": "先にテイクを生成してください。",
-    "failed": "{{number}}行目が失敗しました: {{error}}"
+    "failed": "{{number}}行目が失敗しました: {{error}}",
+    "import_subtitles": "字幕を読み込む",
+    "timed_to": "{{name}} のタイミングに合わせています",
+    "remove_timing": "タイミングを解除",
+    "fit_timing": "テイクを字幕のタイミングに合わせる",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} 秒",
+    "over": "{{seconds}} 秒長すぎます",
+    "import_failed": "{{name}} にタイミング付きの字幕が見つかりません。",
+    "timed_locked": "台本は字幕ファイルから読み込まれています。テキストとして編集するにはタイミングを解除してください。"
   }
 }

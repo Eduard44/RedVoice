@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
+  CaptionsIcon,
   CheckIcon,
   FolderDownIcon,
   ListPlusIcon,
@@ -19,6 +20,7 @@ import SearchableSelect from '@shared/components/SearchableSelect';
 import { WorkspaceHeader } from '@/components/app-shell/workspace-header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useProfiles } from '@/hooks/use-profiles';
@@ -34,12 +36,17 @@ import {
   chosenTake,
   clearTakes,
   exportPlan,
+  exportSubtitles,
+  linesFromCues,
   MAX_TAKES,
   MIN_TAKES,
+  overrun,
   parseDraft,
   removeTake,
+  removeTiming,
   resplit,
   SCRIPT_STORAGE_KEY,
+  SUBTITLE_EXPORT_NAME,
   type ScriptDraft,
   type ScriptSplit,
 } from './script-model';
@@ -47,10 +54,12 @@ import {
   missingTakes,
   runTakes,
   takeInput,
+  targetDuration,
   type TakeJob,
   type TakeProgress,
 } from './script-generate';
 import { toTimelineWav } from './wav-export';
+import { parseSubtitles, shortTime } from './subtitles';
 
 function loadDraft(): ScriptDraft {
   try {
@@ -70,6 +79,7 @@ export function ScriptPage() {
   const [playing, setPlaying] = useState<string | null>(null);
   const run = useRef<AbortController | null>(null);
   const player = useRef<HTMLAudioElement | null>(null);
+  const subtitleInput = useRef<HTMLInputElement | null>(null);
   const busy = progress !== null || exporting;
 
   useEffect(() => {
@@ -102,7 +112,7 @@ export function ScriptPage() {
     try {
       await runTakes(
         jobs,
-        (text, seed) => takeInput(settings, draft, text, seed),
+        (text, seed, duration) => takeInput(settings, draft, text, seed, duration),
         (input, signal) => generateClone(input, { signal }),
         {
           onProgress: (next) => {
@@ -122,6 +132,17 @@ export function ScriptPage() {
       if (run.current === controller) run.current = null;
       setProgress(null);
     }
+  }
+
+  async function importSubtitles(file: File) {
+    const cues = parseSubtitles(await file.text());
+    if (!cues.length) {
+      toast.error(t('script.import_failed', { name: file.name }));
+      return;
+    }
+    const next = linesFromCues(draft, cues, file.name);
+    setDraft(next);
+    setSource(next.source);
   }
 
   function play(path: string) {
@@ -160,6 +181,10 @@ export function ScriptPage() {
         }
         files.push({ name: item.name, data: toTimelineWav(await response.arrayBuffer()) });
       }
+      // The matching subtitles: cue N belongs to clip line-N.
+      const subtitles = exportSubtitles(draft);
+      if (subtitles)
+        files.push({ name: SUBTITLE_EXPORT_NAME, data: new TextEncoder().encode(subtitles) });
       const saved = await saveNativeFolder({
         files,
         labels: {
@@ -170,7 +195,7 @@ export function ScriptPage() {
         },
       });
       if (saved === null) toast.error(t('script.desktop_only'));
-      else if (!saved.canceled) toast.success(t('script.exported', { count: files.length }));
+      else if (!saved.canceled) toast.success(t('script.exported', { count: plan.length }));
     } catch (error) {
       toast.error(describeError(error));
     } finally {
@@ -264,38 +289,96 @@ export function ScriptPage() {
           </section>
 
           <section className="flex flex-col gap-2">
+            {draft.subtitles && (
+              <div
+                className="flex flex-wrap items-center gap-3 rounded-lg border border-border/60 bg-card/40 px-3 py-2 text-sm"
+                data-testid="subtitle-timing"
+              >
+                <CaptionsIcon className="size-4 text-muted-foreground" aria-hidden="true" />
+                <span className="min-w-0 truncate">
+                  {t('script.timed_to', { name: draft.subtitles })}
+                </span>
+                <label className="ms-auto flex items-center gap-2 text-xs text-muted-foreground">
+                  <Switch
+                    checked={draft.fitToTiming}
+                    disabled={busy}
+                    onCheckedChange={(fitToTiming) =>
+                      setDraft((value) => ({ ...value, fitToTiming }))
+                    }
+                  />
+                  {t('script.fit_timing')}
+                </label>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  disabled={busy}
+                  onClick={() => setDraft((value) => removeTiming(value))}
+                >
+                  {t('script.remove_timing')}
+                </Button>
+              </div>
+            )}
             <Textarea
               aria-label={t('script.script_text')}
               placeholder={t('script.placeholder')}
               value={source}
               disabled={busy}
+              readOnly={!!draft.subtitles}
+              title={draft.subtitles ? t('script.timed_locked') : undefined}
               rows={8}
               onChange={(event) => setSource(event.target.value)}
             />
             <div className="flex flex-wrap items-center gap-2">
-              <ToggleGroup
-                value={[draft.split]}
-                onValueChange={(value) => {
-                  const split = value[0] as ScriptSplit | undefined;
-                  if (split) setDraft((current) => resplit(current, source, split));
+              <input
+                ref={subtitleInput}
+                type="file"
+                accept=".srt,.vtt,text/vtt,application/x-subrip"
+                className="hidden"
+                data-testid="subtitle-file"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = '';
+                  if (file) void importSubtitles(file);
                 }}
-                disabled={busy}
-                size="sm"
-                spacing={0}
-                className="rounded-lg border border-border/50 bg-background/25 p-0.5"
-              >
-                <ToggleGroupItem value="lines">{t('script.split_lines')}</ToggleGroupItem>
-                <ToggleGroupItem value="sentences">{t('script.split_sentences')}</ToggleGroupItem>
-              </ToggleGroup>
+              />
               <Button
                 size="sm"
-                variant={changed ? 'default' : 'secondary'}
-                disabled={busy || !source.trim()}
-                onClick={() => setDraft((current) => resplit(current, source))}
+                variant="secondary"
+                disabled={busy}
+                onClick={() => subtitleInput.current?.click()}
               >
-                <ListPlusIcon />
-                {t('script.apply')}
+                <CaptionsIcon />
+                {t('script.import_subtitles')}
               </Button>
+              {!draft.subtitles && (
+                <>
+                  <ToggleGroup
+                    value={[draft.split]}
+                    onValueChange={(value) => {
+                      const split = value[0] as ScriptSplit | undefined;
+                      if (split) setDraft((current) => resplit(current, source, split));
+                    }}
+                    disabled={busy}
+                    size="sm"
+                    spacing={0}
+                    className="rounded-lg border border-border/50 bg-background/25 p-0.5"
+                  >
+                    <ToggleGroupItem value="lines">{t('script.split_lines')}</ToggleGroupItem>
+                    <ToggleGroupItem value="sentences">
+                      {t('script.split_sentences')}
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                  <Button
+                    size="sm"
+                    variant={changed ? 'default' : 'secondary'}
+                    disabled={busy || !source.trim()}
+                    onClick={() => setDraft((current) => resplit(current, source))}
+                  >
+                    <ListPlusIcon />
+                    {t('script.apply')}
+                  </Button>
+                </>
+              )}
               <div className="ms-auto flex items-center gap-2">
                 {progress && (
                   <span role="status" className="text-xs text-muted-foreground">
@@ -336,8 +419,17 @@ export function ScriptPage() {
                     data-testid="script-line"
                   >
                     <div className="flex items-start gap-3">
-                      <span className="mt-0.5 shrink-0 text-xs font-medium tabular-nums text-muted-foreground">
+                      <span className="mt-0.5 flex shrink-0 flex-col text-xs font-medium tabular-nums text-muted-foreground">
                         {t('script.line_number', { number: index + 1 })}
+                        {line.slot && (
+                          <span className="font-normal" data-testid="line-slot">
+                            {t('script.slot_label', {
+                              start: shortTime(line.slot.start),
+                              end: shortTime(line.slot.end),
+                              seconds: (line.slot.end - line.slot.start).toFixed(1),
+                            })}
+                          </span>
+                        )}
                       </span>
                       <p className="min-w-0 flex-1 text-sm">{line.text}</p>
                       <Button
@@ -347,7 +439,14 @@ export function ScriptPage() {
                         aria-label={t('script.add_take')}
                         disabled={busy}
                         onClick={() =>
-                          void generate([{ lineId: line.id, text: line.text, count: 1 }])
+                          void generate([
+                            {
+                              lineId: line.id,
+                              text: line.text,
+                              count: 1,
+                              duration: targetDuration(draft, line),
+                            },
+                          ])
                         }
                       >
                         <PlusIcon />
@@ -360,7 +459,14 @@ export function ScriptPage() {
                         disabled={busy}
                         onClick={() =>
                           void generate(
-                            [{ lineId: line.id, text: line.text, count: draft.takesPerLine }],
+                            [
+                              {
+                                lineId: line.id,
+                                text: line.text,
+                                count: draft.takesPerLine,
+                                duration: targetDuration(draft, line),
+                              },
+                            ],
                             (current) => clearTakes(current, line.id),
                           )
                         }
@@ -373,6 +479,7 @@ export function ScriptPage() {
                         {line.takes.map((take, takeIndex) => {
                           const number = takeIndex + 1;
                           const isChosen = chosen?.id === take.id;
+                          const over = overrun(line, take);
                           return (
                             <li
                               key={take.id}
@@ -396,6 +503,14 @@ export function ScriptPage() {
                                 {take.durationSeconds !== null && (
                                   <span className="text-xs tabular-nums text-muted-foreground">
                                     {take.durationSeconds.toFixed(1)}s
+                                  </span>
+                                )}
+                                {over !== null && over > 0 && (
+                                  <span
+                                    className="text-xs tabular-nums text-warning"
+                                    data-testid="take-over"
+                                  >
+                                    {t('script.over', { seconds: over.toFixed(1) })}
                                   </span>
                                 )}
                               </Button>

@@ -4825,6 +4825,14 @@
     "take_missing": "{{number}}번째 줄의 테이크를 더 이상 사용할 수 없습니다. 줄을 다시 생성하세요.",
     "no_voice": "먼저 음성을 선택하세요.",
     "nothing_to_export": "먼저 테이크를 생성하세요.",
-    "failed": "{{number}}번째 줄 실패: {{error}}"
+    "failed": "{{number}}번째 줄 실패: {{error}}",
+    "import_subtitles": "자막 가져오기",
+    "timed_to": "{{name}} 타이밍에 맞춤",
+    "remove_timing": "타이밍 제거",
+    "fit_timing": "테이크를 자막 타이밍에 맞추기",
+    "slot_label": "{{start}} – {{end}} · {{seconds}}초",
+    "over": "{{seconds}}초 김",
+    "import_failed": "{{name}}에서 타이밍이 있는 자막을 찾지 못했습니다.",
+    "timed_locked": "스크립트는 자막 파일에서 가져왔습니다. 텍스트로 편집하려면 타이밍을 제거하세요."
   }
 }

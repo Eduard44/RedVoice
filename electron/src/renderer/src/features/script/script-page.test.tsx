@@ -139,3 +139,82 @@ it('keeps the script and takes after reopening the page', async () => {
   expect(screen.getAllByTestId('script-line')).toHaveLength(2);
   expect(screen.getAllByLabelText(/script.play_take/)).toHaveLength(6);
 });
+
+const SRT = `1
+00:00:01,000 --> 00:00:03,500
+Every great edit starts with a single frame.
+
+2
+00:00:04,000 --> 00:00:05,000
+Cut on the beat.
+`;
+
+async function importSubtitles() {
+  render(<ScriptPage />);
+  fireEvent.click(screen.getByText('pick voice'));
+  const file = new File([SRT], 'episode.srt', { type: 'application/x-subrip' });
+  fireEvent.change(screen.getByTestId('subtitle-file'), { target: { files: [file] } });
+  await waitFor(() => expect(screen.getAllByTestId('script-line')).toHaveLength(2));
+}
+
+it('imports subtitles as timed lines and asks each take for its slot length', async () => {
+  await importSubtitles();
+  expect(screen.getByTestId('subtitle-timing')).toBeInTheDocument();
+  expect(screen.getAllByTestId('line-slot')).toHaveLength(2);
+  expect(screen.getByLabelText('script.script_text')).toHaveAttribute('readonly');
+  fireEvent.click(screen.getByText('script.generate'));
+  await waitFor(() => expect(mocks.generate).toHaveBeenCalledTimes(6));
+  const durations = mocks.generate.mock.calls.map(
+    ([input]) => (input as CloneGenerateInput).duration,
+  );
+  expect(durations).toEqual(['2.500', '2.500', '2.500', '1.000', '1.000', '1.000']);
+});
+
+it('marks a take that runs past its subtitle', async () => {
+  mocks.generate.mockImplementation(async (input: CloneGenerateInput) => ({
+    blob: new Blob(),
+    id: `take-${input.seed}`,
+    audioPath: `take-${input.seed}.wav`,
+    durationSeconds: Number(input.duration) + 0.4,
+    genTimeSeconds: 1,
+    seed: input.seed ?? null,
+    routing: null,
+    dropped: null,
+  }));
+  await importSubtitles();
+  fireEvent.click(screen.getByText('script.generate'));
+  await waitFor(() => expect(screen.getAllByTestId('take-over')).toHaveLength(6));
+});
+
+it('exports the clips with a matching voice-over.srt', async () => {
+  await importSubtitles();
+  fireEvent.click(screen.getByText('script.generate'));
+  await waitFor(() => expect(screen.getAllByLabelText(/script.play_take/)).toHaveLength(6));
+  fireEvent.click(screen.getByText('script.export_chosen'));
+  await waitFor(() => expect(mocks.save).toHaveBeenCalledTimes(1));
+  const request = mocks.save.mock.calls[0]![0] as { files: { name: string; data: Uint8Array }[] };
+  expect(request.files.map((file) => file.name)).toEqual([
+    'line-01_take-01.wav',
+    'line-02_take-01.wav',
+    'voice-over.srt',
+  ]);
+  const srt = new TextDecoder().decode(request.files[2]!.data);
+  expect(srt).toContain('1\n00:00:01,000 --> 00:00:02,200\nEvery great edit starts');
+  expect(mocks.toastSuccess).toHaveBeenCalled();
+});
+
+it('rejects a file without timed subtitles', async () => {
+  render(<ScriptPage />);
+  const file = new File(['no timings here'], 'notes.srt');
+  fireEvent.change(screen.getByTestId('subtitle-file'), { target: { files: [file] } });
+  await waitFor(() => expect(mocks.toastError).toHaveBeenCalledWith('script.import_failed'));
+  expect(screen.queryAllByTestId('script-line')).toHaveLength(0);
+});
+
+it('can remove the timing and edit the script as text again', async () => {
+  await importSubtitles();
+  fireEvent.click(screen.getByText('script.remove_timing'));
+  expect(screen.queryByTestId('subtitle-timing')).toBeNull();
+  expect(screen.queryAllByTestId('line-slot')).toHaveLength(0);
+  expect(screen.getByLabelText('script.script_text')).not.toHaveAttribute('readonly');
+});
