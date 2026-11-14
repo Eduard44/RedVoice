@@ -886,7 +886,8 @@ def test_unsigned_opener_is_drafted_with_one_comment_carrying_the_steps():
     assert len(gh.posted) == 1 and not gh.patched
     body = gh.posted[0]
     assert cla.gate_state({"body": body}) == "drafted"
-    assert cla.SIGN_PHRASE in body and GUIDE in body and cla.agent_prompt(GUIDE) in body
+    # RedVoice: the comment carries the signing steps but no coding-assistant box.
+    assert cla.SIGN_PHRASE in body and GUIDE not in body and cla.agent_prompt(GUIDE) not in body
     assert not gh.reruns
 
 
