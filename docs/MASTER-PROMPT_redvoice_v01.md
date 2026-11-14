@@ -1,6 +1,6 @@
 # RedVoice master prompt (v01, 2026-11-11)
 
-Paste this at the start of any Claude session that works on the RedVoice repo, or save it in the repo as `docs/MASTER-PROMPT.md` and point Claude at it.
+The project brief for RedVoice: what it is, what has been decided and how work on the repository is done.
 
 ## What RedVoice is
 
@@ -58,7 +58,7 @@ Planned order: first make the Vulkan GGUF path the automatic default on AMD card
 
 ## Rules for working on this repo
 
-- Read the repo's own `CLAUDE.md` and `AGENTS.md` first and follow their conventions.
+- Read the repository's own contributor rules (the instruction files in the repository root) first and follow their conventions.
 - Keep the AGPL-3.0 license, all existing copyright notices and `LICENSE-NOTICE.md`. State in the README that RedVoice is a modified fork of VoiceStudio and summarize what changed.
 - Rename user-facing branding to RedVoice (app name, window title, icons, installer names). Do not use the VoiceStudio name or logo as RedVoice's own branding.
 - Remove or disable calls to VoiceStudio servers: installer scripts, update checks, Pro/Cloud/account endpoints, telemetry if any.

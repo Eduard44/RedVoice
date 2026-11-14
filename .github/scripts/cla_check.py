@@ -285,8 +285,9 @@ def with_gate(body: str, state: str | None, guide_url: str) -> str:
         held = held[:-1] + " and this pull request is marked ready for review. Until then it stays a draft."
     else:
         held += " You made this pull request a draft, so it stays one until you mark it ready."
-    return "\n".join(lines + [held, "", "<details><summary>Using an AI coding agent? Give it this</summary>",
-                               "", "```text", agent_prompt(guide_url), "```", "", "</details>"])
+    # RedVoice: the comment carries no coding-assistant box (guide_url stays for callers).
+    del guide_url
+    return "\n".join(lines + [held])
 
 
 def co_authors(message: str) -> list[dict]:

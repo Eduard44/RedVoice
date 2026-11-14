@@ -11,15 +11,6 @@ the pull request ready for review, except one you made a draft yourself: that
 stays a draft until you mark it ready.
 -->
 
-<details>
-<summary>Using an AI agent? Give it this</summary>
-
-```text
-Before changing anything, read https://github.com/debpalash/VoiceStudio/blob/main/.github/AGENT_PR_GUIDE.md and follow every step in it. Finish every step before you ask for review.
-```
-
-</details>
-
 ## Summary
 
 <!-- Brief description of what this PR does. -->

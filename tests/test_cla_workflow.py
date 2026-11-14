@@ -243,13 +243,16 @@ def test_agent_guide_is_short_and_surfaced_with_the_same_prompt_everywhere():
     text = guide.read_text(encoding="utf-8")
     assert len(text.splitlines()) <= 60
     assert cla.SIGN_PHRASE in text and "issues/2586" in text
-    prompt = cla.agent_prompt(f"https://github.com/debpalash/VoiceStudio/blob/main/{cla.AGENT_GUIDE_PATH}")
-    assert prompt in (_REPO / ".github" / "pull_request_template.md").read_text(encoding="utf-8")
+    # RedVoice keeps the pull request template and the check's comment free of
+    # any coding-assistant box.
+    template = (_REPO / ".github" / "pull_request_template.md").read_text(encoding="utf-8")
+    assert "agent" not in template.lower()
     contributing = (_REPO / ".github" / "CONTRIBUTING.md").read_text(encoding="utf-8")
     top = contributing.split("## Adding a TTS or ASR engine")[0]
     assert "sign the CLA first" in top and "(AGENT_PR_GUIDE.md)" in top
     body = cla.with_gate("x", "drafted", "https://g")
-    assert cla.agent_prompt("https://g") in body and "Signing takes a minute" in body
+    assert "Signing takes a minute" in body
+    assert cla.agent_prompt("https://g") not in body and "agent" not in body.lower()
 
 
 def test_backfill_is_manual_main_only_and_never_checks_out_pr_code():
