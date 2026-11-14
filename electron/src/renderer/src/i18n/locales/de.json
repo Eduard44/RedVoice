@@ -4825,6 +4825,14 @@
     "take_missing": "Ein Take von Zeile {{number}} ist nicht mehr verfügbar. Erzeuge die Zeile neu.",
     "no_voice": "Wähle zuerst eine Stimme.",
     "nothing_to_export": "Erzeuge zuerst einige Takes.",
-    "failed": "Zeile {{number}} fehlgeschlagen: {{error}}"
+    "failed": "Zeile {{number}} fehlgeschlagen: {{error}}",
+    "import_subtitles": "Untertitel importieren",
+    "timed_to": "Zeitlich an {{name}}",
+    "remove_timing": "Timing entfernen",
+    "fit_timing": "Takes an Untertitel-Timing anpassen",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s zu lang",
+    "import_failed": "In {{name}} wurden keine Untertitel mit Zeiten gefunden.",
+    "timed_locked": "Das Skript stammt aus der Untertiteldatei. Entferne das Timing, um es als Text zu bearbeiten."
   }
 }

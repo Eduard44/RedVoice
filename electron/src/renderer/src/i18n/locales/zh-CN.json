@@ -4825,6 +4825,14 @@
     "take_missing": "第 {{number}} 行的某个版本已不可用。请重新生成该行。",
     "no_voice": "请先选择声音。",
     "nothing_to_export": "请先生成一些版本。",
-    "failed": "第 {{number}} 行失败：{{error}}"
+    "failed": "第 {{number}} 行失败：{{error}}",
+    "import_subtitles": "导入字幕",
+    "timed_to": "按 {{name}} 的时间对齐",
+    "remove_timing": "移除时间",
+    "fit_timing": "让版本贴合字幕时间",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} 秒",
+    "over": "超出 {{seconds}} 秒",
+    "import_failed": "在 {{name}} 中没有找到带时间的字幕。",
+    "timed_locked": "脚本来自字幕文件。移除时间后才能作为文本编辑。"
   }
 }

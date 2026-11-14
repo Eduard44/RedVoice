@@ -7,6 +7,11 @@ import {
   DEFAULT_TAKES,
   emptyDraft,
   exportPlan,
+  exportSubtitles,
+  linesFromCues,
+  overrun,
+  removeTiming,
+  slotSeconds,
   parseDraft,
   randomSeed,
   removeTake,
@@ -128,5 +133,58 @@ describe('saved drafts', () => {
     );
     expect(damaged.takesPerLine).toBe(DEFAULT_TAKES);
     expect(damaged.lines).toEqual([{ id: 'l', text: 'Hi', takes: [], chosen: null }]);
+  });
+});
+
+describe('subtitle timing', () => {
+  const cues = [
+    { start: 1, end: 3.5, text: 'First cue.' },
+    { start: 4, end: 6, text: 'Second cue.' },
+  ];
+
+  it('turns each cue into a timed line and remembers the file', () => {
+    const draft = linesFromCues(emptyDraft(), cues, 'episode.srt');
+    expect(draft.subtitles).toBe('episode.srt');
+    expect(draft.source).toBe('First cue.\nSecond cue.');
+    expect(draft.lines.map((line) => [line.text, line.slot])).toEqual([
+      ['First cue.', { start: 1, end: 3.5 }],
+      ['Second cue.', { start: 4, end: 6 }],
+    ]);
+    expect(slotSeconds(draft.lines[0]!)).toBe(2.5);
+  });
+
+  it('flags takes longer than their slot, with a frame of tolerance', () => {
+    const draft = linesFromCues(emptyDraft(), cues, 'episode.srt');
+    const line = draft.lines[0]!;
+    expect(overrun(line, { ...take('a'), durationSeconds: 2.53 })).toBe(0);
+    expect(overrun(line, { ...take('a'), durationSeconds: 3 })).toBeCloseTo(0.5);
+    expect(overrun(line, { ...take('a'), durationSeconds: null })).toBeNull();
+    expect(overrun({ ...line, slot: undefined }, take('a'))).toBeNull();
+  });
+
+  it('writes a matching SRT: cue N for clip line-N, as long as the chosen take', () => {
+    let draft = linesFromCues(emptyDraft(), cues, 'episode.srt');
+    draft = addTake(draft, draft.lines[0]!.id, { ...take('a'), durationSeconds: 2.25 });
+    expect(exportSubtitles(draft)).toBe(
+      '1\n00:00:01,000 --> 00:00:03,250\nFirst cue.\n\n2\n00:00:04,000 --> 00:00:06,000\nSecond cue.\n',
+    );
+    expect(exportSubtitles(draftWith('typed script'))).toBeNull();
+  });
+
+  it('can drop the timing and keep the lines and takes', () => {
+    let draft = linesFromCues(emptyDraft(), cues, 'episode.srt');
+    draft = addTake(draft, draft.lines[0]!.id, take('a'));
+    const untimed = removeTiming(draft);
+    expect(untimed.subtitles).toBeNull();
+    expect(untimed.lines.every((line) => line.slot === undefined)).toBe(true);
+    expect(untimed.lines[0]!.takes).toHaveLength(1);
+  });
+
+  it('saves and restores timed lines, dropping broken slots', () => {
+    const draft = linesFromCues(emptyDraft(), cues, 'episode.srt');
+    expect(parseDraft(JSON.stringify(draft))).toEqual(draft);
+    const broken = JSON.parse(JSON.stringify(draft));
+    broken.lines[0].slot = { start: 5, end: 2 };
+    expect(parseDraft(JSON.stringify(broken)).lines[0]!.slot).toBeUndefined();
   });
 });

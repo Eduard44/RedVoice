@@ -1,12 +1,19 @@
 import type { CloneSettings } from '@/lib/store/clone-settings';
 import type { CloneGenerateInput, GenerateResult } from '@/lib/api/types';
-import { randomSeed, type ScriptDraft, type ScriptTake } from './script-model';
+import { randomSeed, type ScriptDraft, type ScriptLine, type ScriptTake } from './script-model';
 
 /** One line that needs `count` more takes. */
 export interface TakeJob {
   lineId: string;
   text: string;
   count: number;
+  /** Target length in seconds: the subtitle slot, when the takes should fit it. */
+  duration?: number;
+}
+
+/** The slot a line's takes should fill, or undefined when timing is off or the line is untimed. */
+export function targetDuration(draft: ScriptDraft, line: ScriptLine): number | undefined {
+  return draft.fitToTiming && line.slot ? line.slot.end - line.slot.start : undefined;
 }
 
 /** Lines with fewer takes than the draft asks for, each topped up to that number. */
@@ -17,6 +24,7 @@ export function missingTakes(draft: ScriptDraft): TakeJob[] {
       lineId: line.id,
       text: line.text,
       count: draft.takesPerLine - line.takes.length,
+      duration: targetDuration(draft, line),
     }));
 }
 
@@ -29,6 +37,7 @@ export function takeInput(
   draft: ScriptDraft,
   text: string,
   seed: number,
+  duration?: number,
 ): CloneGenerateInput {
   return {
     text,
@@ -46,7 +55,8 @@ export function takeInput(
     layerPenalty: settings.layerPenalty,
     denoise: settings.denoise,
     postprocess: settings.postprocess,
-    duration: '',
+    // OmniVoice renders exactly this length; '' lets the engine choose.
+    duration: duration && duration > 0 ? duration.toFixed(3) : '',
   };
 }
 
@@ -65,7 +75,7 @@ export interface TakeProgress {
  */
 export async function runTakes(
   jobs: TakeJob[],
-  makeInput: (text: string, seed: number) => CloneGenerateInput,
+  makeInput: (text: string, seed: number, duration?: number) => CloneGenerateInput,
   generate: (input: CloneGenerateInput, signal: AbortSignal) => Promise<GenerateResult>,
   callbacks: {
     onProgress: (progress: TakeProgress) => void;
@@ -83,7 +93,7 @@ export async function runTakes(
         takes: job.count,
       });
       const seed = randomSeed();
-      const result = await generate(makeInput(job.text, seed), signal);
+      const result = await generate(makeInput(job.text, seed, job.duration), signal);
       if (!result.audioPath) throw new Error('The engine returned no audio file');
       callbacks.onTake(job.lineId, {
         id: result.id ?? `${job.lineId}-${seed}`,

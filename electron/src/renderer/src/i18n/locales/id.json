@@ -4825,6 +4825,14 @@
     "take_missing": "Sebuah take dari baris {{number}} tidak tersedia lagi. Buat ulang baris tersebut.",
     "no_voice": "Pilih suara terlebih dahulu.",
     "nothing_to_export": "Buat beberapa take terlebih dahulu.",
-    "failed": "Baris {{number}} gagal: {{error}}"
+    "failed": "Baris {{number}} gagal: {{error}}",
+    "import_subtitles": "Impor subtitel",
+    "timed_to": "Diselaraskan dengan {{name}}",
+    "remove_timing": "Hapus penyelarasan",
+    "fit_timing": "Sesuaikan take dengan waktu subtitel",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} dtk",
+    "over": "Kelebihan {{seconds}} dtk",
+    "import_failed": "Tidak ada subtitel bertanda waktu di {{name}}.",
+    "timed_locked": "Naskah berasal dari file subtitel. Hapus penyelarasan untuk mengeditnya sebagai teks."
   }
 }

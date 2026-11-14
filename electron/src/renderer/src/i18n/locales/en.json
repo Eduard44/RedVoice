@@ -4825,6 +4825,14 @@
     "take_missing": "A take of line {{number}} is no longer available. Regenerate the line.",
     "no_voice": "Pick a voice first.",
     "nothing_to_export": "Generate some takes first.",
-    "failed": "Line {{number}} failed: {{error}}"
+    "failed": "Line {{number}} failed: {{error}}",
+    "import_subtitles": "Import subtitles",
+    "timed_to": "Timed to {{name}}",
+    "remove_timing": "Remove timing",
+    "fit_timing": "Fit takes to subtitle timing",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s too long",
+    "import_failed": "No subtitles with timings were found in {{name}}.",
+    "timed_locked": "The script comes from the subtitle file. Remove timing to edit it as text."
   }
 }

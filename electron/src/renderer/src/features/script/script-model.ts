@@ -1,4 +1,5 @@
 import { splitStoryText } from '@shared/utils/splitStoryText';
+import { formatSrt, type Cue } from './subtitles';
 
 /** One generated take of a line; the audio lives in the backend's history. */
 export interface ScriptTake {
@@ -15,6 +16,8 @@ export interface ScriptLine {
   takes: ScriptTake[];
   /** The take picked for export, or null to use the first take. */
   chosen: string | null;
+  /** The subtitle's time slot in seconds, for lines imported from subtitles. */
+  slot?: { start: number; end: number };
 }
 
 /** How a pasted script becomes lines. */
@@ -30,6 +33,10 @@ export interface ScriptDraft {
   /** Display-name language ("English"), as the Clone page sends it. */
   language: string;
   takesPerLine: number;
+  /** Name of the subtitle file the lines came from, or null for a typed script. */
+  subtitles: string | null;
+  /** Ask each take of a timed line for exactly its slot length. */
+  fitToTiming: boolean;
 }
 
 export const MIN_TAKES = 1;
@@ -46,6 +53,8 @@ export function emptyDraft(): ScriptDraft {
     profileId: null,
     language: 'English',
     takesPerLine: DEFAULT_TAKES,
+    subtitles: null,
+    fitToTiming: true,
   };
 }
 
@@ -80,6 +89,64 @@ export function resplit(
     return reused ?? { id: newId(), text, takes: [], chosen: null };
   });
   return { ...draft, source, split, lines };
+}
+
+/** Replaces the script with one timed line per subtitle cue. */
+export function linesFromCues(draft: ScriptDraft, cues: Cue[], name: string): ScriptDraft {
+  return {
+    ...draft,
+    source: cues.map((cue) => cue.text).join('\n'),
+    split: 'lines',
+    subtitles: name,
+    lines: cues.map((cue) => ({
+      id: newId(),
+      text: cue.text,
+      takes: [],
+      chosen: null,
+      slot: { start: cue.start, end: cue.end },
+    })),
+  };
+}
+
+/** Keeps the lines and takes but forgets the subtitle timing. */
+export function removeTiming(draft: ScriptDraft): ScriptDraft {
+  return {
+    ...draft,
+    subtitles: null,
+    lines: draft.lines.map(({ slot: _slot, ...line }) => line),
+  };
+}
+
+export function slotSeconds(line: ScriptLine): number | null {
+  return line.slot ? line.slot.end - line.slot.start : null;
+}
+
+/** Up to 50 ms over still fits: below a frame at any video frame rate. */
+export const FIT_TOLERANCE = 0.05;
+
+/** Seconds a take runs past its slot (0 when it fits), or null when unknown or untimed. */
+export function overrun(line: ScriptLine, take: ScriptTake): number | null {
+  const slot = slotSeconds(line);
+  if (slot === null || take.durationSeconds === null) return null;
+  const over = take.durationSeconds - slot;
+  return over > FIT_TOLERANCE ? over : 0;
+}
+
+export const SUBTITLE_EXPORT_NAME = 'voice-over.srt';
+
+/**
+ * The SRT that goes with exported clips: cue N is clip line-N, starting where
+ * its subtitle starts and lasting as long as the clip actually does (the slot
+ * length when the line has no take yet).
+ */
+export function exportSubtitles(draft: ScriptDraft): string | null {
+  if (!draft.subtitles || !draft.lines.some((line) => line.slot)) return null;
+  const cues: Cue[] = draft.lines.flatMap((line) => {
+    if (!line.slot) return [];
+    const length = chosenTake(line)?.durationSeconds ?? line.slot.end - line.slot.start;
+    return [{ start: line.slot.start, end: line.slot.start + length, text: line.text }];
+  });
+  return formatSrt(cues);
 }
 
 export function updateLine(
@@ -173,7 +240,22 @@ export function parseDraft(raw: string | null): ScriptDraft {
             typeof line.chosen === 'string' && takes.some((take) => take.id === line.chosen)
               ? line.chosen
               : null;
-          return [{ id: line.id, text: line.text, takes, chosen }];
+          const slot = line.slot;
+          const timed =
+            slot &&
+            Number.isFinite(slot.start) &&
+            Number.isFinite(slot.end) &&
+            slot.end > slot.start &&
+            slot.start >= 0;
+          return [
+            {
+              id: line.id,
+              text: line.text,
+              takes,
+              chosen,
+              ...(timed ? { slot: { start: slot.start, end: slot.end } } : {}),
+            },
+          ];
         })
       : [];
     const takes = Number(value.takesPerLine);
@@ -186,6 +268,8 @@ export function parseDraft(raw: string | null): ScriptDraft {
       language: typeof value.language === 'string' && value.language ? value.language : 'English',
       takesPerLine:
         Number.isInteger(takes) && takes >= MIN_TAKES && takes <= MAX_TAKES ? takes : DEFAULT_TAKES,
+      subtitles: typeof value.subtitles === 'string' && value.subtitles ? value.subtitles : null,
+      fitToTiming: value.fitToTiming !== false,
     };
   } catch {
     return fallback;

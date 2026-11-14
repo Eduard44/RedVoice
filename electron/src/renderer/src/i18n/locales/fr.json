@@ -4827,6 +4827,14 @@
     "take_missing": "Une prise de la ligne {{number}} n’est plus disponible. Régénérez la ligne.",
     "no_voice": "Choisissez d’abord une voix.",
     "nothing_to_export": "Générez d’abord quelques prises.",
-    "failed": "Échec de la ligne {{number}} : {{error}}"
+    "failed": "Échec de la ligne {{number}} : {{error}}",
+    "import_subtitles": "Importer des sous-titres",
+    "timed_to": "Synchronisé sur {{name}}",
+    "remove_timing": "Retirer la synchronisation",
+    "fit_timing": "Ajuster les prises aux sous-titres",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s de trop",
+    "import_failed": "Aucun sous-titre minuté trouvé dans {{name}}.",
+    "timed_locked": "Le script vient du fichier de sous-titres. Retirez la synchronisation pour le modifier comme texte."
   }
 }

@@ -4825,6 +4825,14 @@
     "take_missing": "Satır {{number}} için bir çekim artık mevcut değil. Satırı yeniden oluşturun.",
     "no_voice": "Önce bir ses seçin.",
     "nothing_to_export": "Önce birkaç çekim oluşturun.",
-    "failed": "Satır {{number}} başarısız oldu: {{error}}"
+    "failed": "Satır {{number}} başarısız oldu: {{error}}",
+    "import_subtitles": "Altyazı içe aktar",
+    "timed_to": "{{name}} zamanlamasıyla",
+    "remove_timing": "Zamanlamayı kaldır",
+    "fit_timing": "Çekimleri altyazı zamanlamasına uydur",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s fazla uzun",
+    "import_failed": "{{name}} içinde zamanlamalı altyazı bulunamadı.",
+    "timed_locked": "Senaryo altyazı dosyasından geliyor. Metin olarak düzenlemek için zamanlamayı kaldırın."
   }
 }

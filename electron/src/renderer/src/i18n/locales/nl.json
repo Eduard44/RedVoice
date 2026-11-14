@@ -4825,6 +4825,14 @@
     "take_missing": "Een take van regel {{number}} is niet meer beschikbaar. Maak de regel opnieuw.",
     "no_voice": "Kies eerst een stem.",
     "nothing_to_export": "Maak eerst wat takes.",
-    "failed": "Regel {{number}} mislukt: {{error}}"
+    "failed": "Regel {{number}} mislukt: {{error}}",
+    "import_subtitles": "Ondertitels importeren",
+    "timed_to": "Getimed op {{name}}",
+    "remove_timing": "Timing verwijderen",
+    "fit_timing": "Takes aan ondertiteltiming aanpassen",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s te lang",
+    "import_failed": "Geen ondertitels met tijden gevonden in {{name}}.",
+    "timed_locked": "Het script komt uit het ondertitelbestand. Verwijder de timing om het als tekst te bewerken."
   }
 }

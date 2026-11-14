@@ -4827,6 +4827,14 @@
     "take_missing": "Uma tomada da linha {{number}} não está mais disponível. Gere a linha de novo.",
     "no_voice": "Escolha uma voz primeiro.",
     "nothing_to_export": "Gere algumas tomadas primeiro.",
-    "failed": "A linha {{number}} falhou: {{error}}"
+    "failed": "A linha {{number}} falhou: {{error}}",
+    "import_subtitles": "Importar legendas",
+    "timed_to": "Sincronizado com {{name}}",
+    "remove_timing": "Remover sincronização",
+    "fit_timing": "Ajustar tomadas às legendas",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s longa demais",
+    "import_failed": "Nenhuma legenda com tempos foi encontrada em {{name}}.",
+    "timed_locked": "O roteiro vem do arquivo de legendas. Remova a sincronização para editá-lo como texto."
   }
 }

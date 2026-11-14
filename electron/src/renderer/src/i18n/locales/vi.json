@@ -4825,6 +4825,14 @@
     "take_missing": "Một bản thu của dòng {{number}} không còn nữa. Hãy tạo lại dòng.",
     "no_voice": "Hãy chọn giọng trước.",
     "nothing_to_export": "Hãy tạo vài bản thu trước.",
-    "failed": "Dòng {{number}} thất bại: {{error}}"
+    "failed": "Dòng {{number}} thất bại: {{error}}",
+    "import_subtitles": "Nhập phụ đề",
+    "timed_to": "Khớp thời gian với {{name}}",
+    "remove_timing": "Bỏ khớp thời gian",
+    "fit_timing": "Khớp bản thu với thời gian phụ đề",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} giây",
+    "over": "Dài hơn {{seconds}} giây",
+    "import_failed": "Không tìm thấy phụ đề có thời gian trong {{name}}.",
+    "timed_locked": "Kịch bản lấy từ tệp phụ đề. Bỏ khớp thời gian để sửa dưới dạng văn bản."
   }
 }

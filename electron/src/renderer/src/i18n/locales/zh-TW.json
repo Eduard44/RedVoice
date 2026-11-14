@@ -4825,6 +4825,14 @@
     "take_missing": "第 {{number}} 行的某個版本已無法使用。請重新產生該行。",
     "no_voice": "請先選擇聲音。",
     "nothing_to_export": "請先產生一些版本。",
-    "failed": "第 {{number}} 行失敗：{{error}}"
+    "failed": "第 {{number}} 行失敗：{{error}}",
+    "import_subtitles": "匯入字幕",
+    "timed_to": "依 {{name}} 的時間對齊",
+    "remove_timing": "移除時間",
+    "fit_timing": "讓版本貼合字幕時間",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} 秒",
+    "over": "超出 {{seconds}} 秒",
+    "import_failed": "在 {{name}} 中找不到含時間的字幕。",
+    "timed_locked": "腳本來自字幕檔。移除時間後才能當作文字編輯。"
   }
 }

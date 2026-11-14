@@ -4827,6 +4827,14 @@
     "take_missing": "Una toma de la línea {{number}} ya no está disponible. Regenera la línea.",
     "no_voice": "Elige primero una voz.",
     "nothing_to_export": "Genera primero algunas tomas.",
-    "failed": "La línea {{number}} falló: {{error}}"
+    "failed": "La línea {{number}} falló: {{error}}",
+    "import_subtitles": "Importar subtítulos",
+    "timed_to": "Sincronizado con {{name}}",
+    "remove_timing": "Quitar sincronización",
+    "fit_timing": "Ajustar tomas a los subtítulos",
+    "slot_label": "{{start}} – {{end}} · {{seconds}} s",
+    "over": "{{seconds}} s demasiado larga",
+    "import_failed": "No se encontraron subtítulos con tiempos en {{name}}.",
+    "timed_locked": "El guion viene del archivo de subtítulos. Quita la sincronización para editarlo como texto."
   }
 }

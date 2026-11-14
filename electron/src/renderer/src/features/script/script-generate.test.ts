@@ -3,6 +3,7 @@ import { DEFAULT_CLONE_SETTINGS } from '@/lib/store/clone-settings';
 import type { CloneGenerateInput, GenerateResult } from '@/lib/api/types';
 import { addTake, emptyDraft, resplit } from './script-model';
 import { missingTakes, runTakes, takeInput } from './script-generate';
+import { linesFromCues } from './script-model';
 
 const result = (n: number): GenerateResult => ({
   blob: new Blob(),
@@ -101,5 +102,29 @@ describe('runTakes', () => {
         new AbortController().signal,
       ),
     ).rejects.toThrow('no audio');
+  });
+});
+
+describe('takes timed to subtitles', () => {
+  it('asks each take of a timed line for its slot length, unless fitting is off', () => {
+    const draft = linesFromCues(emptyDraft(), [{ start: 2, end: 4.75, text: 'Hi' }], 'a.srt');
+    expect(missingTakes(draft)[0]!.duration).toBeCloseTo(2.75);
+    expect(missingTakes({ ...draft, fitToTiming: false })[0]!.duration).toBeUndefined();
+    expect(takeInput(DEFAULT_CLONE_SETTINGS, draft, 'Hi', 1, 2.75).duration).toBe('2.750');
+    expect(takeInput(DEFAULT_CLONE_SETTINGS, draft, 'Hi', 1).duration).toBe('');
+  });
+
+  it('passes the target length to every take of the job', async () => {
+    const makeInput = vi.fn(
+      (text: string, seed: number, duration?: number) => ({ text, seed, duration }) as never,
+    );
+    await runTakes(
+      [{ lineId: 'a', text: 'A', count: 2, duration: 1.5 }],
+      makeInput,
+      async () => result(1),
+      { onTake: vi.fn(), onProgress: vi.fn() },
+      new AbortController().signal,
+    );
+    expect(makeInput.mock.calls.map((call) => call[2])).toEqual([1.5, 1.5]);
   });
 });

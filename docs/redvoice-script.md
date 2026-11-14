@@ -12,6 +12,13 @@ Turn a voice-over script into one clip per line, with several takes of each line
 6. Per line: **+** adds one more take, the circular arrow throws away that line's takes and makes new ones. Other lines are not touched.
 7. **Export chosen takes** writes one file per line; **Export all takes** writes every take. Pick a folder; if files with the same names exist, RedVoice asks before replacing them.
 
+## Timed to subtitles
+
+1. Press **Import subtitles** and pick an `.srt` or `.vtt` file. Each subtitle becomes a line that keeps its start and end time; the time slot shows under the line number.
+2. With **Fit takes to subtitle timing** on (the default), every take asks the engine for exactly the slot's length. OmniVoice renders speech to that length, so a 2.5 s subtitle gets a 2.5 s take. Engines that ignore a target length are marked: a take that runs past its slot shows how much too long it is (up to 50 ms over still counts as fitting).
+3. Export as usual. Next to the clips RedVoice writes `voice-over.srt`: cue N belongs to clip `line-N`, starts where its subtitle starts and lasts as long as the exported clip.
+4. While the lines come from subtitles, the script box is read-only. **Remove timing** keeps the lines and takes and turns them back into a typed script.
+
 ## Files
 
 - Names: `line-03_take-02.wav`, numbered by position in the script and padded so they sort in order (`line-120_...` past 99 lines).
