@@ -19,6 +19,21 @@ Turn a voice-over script into one clip per line, with several takes of each line
 3. Export as usual. Next to the clips RedVoice writes `voice-over.srt`: cue N belongs to clip `line-N`, starts where its subtitle starts and lasts as long as the exported clip.
 4. While the lines come from subtitles, the script box is read-only. **Remove timing** keeps the lines and takes and turns them back into a typed script.
 
+## Send to DaVinci Resolve
+
+**Send to Resolve** exports the chosen takes like **Export chosen takes**, then places them on the timeline that is open in DaVinci Resolve Studio on the same computer.
+
+Before the first send, in Resolve: **Preferences › System › General › External scripting using › Local**, then restart Resolve. Open the project and the timeline the voice-over is for. Resolve's free version does not allow outside scripts; this needs Resolve Studio.
+
+What happens:
+
+- The clips are imported into a `RedVoice` bin in the media pool. A file that is already in that bin is refreshed rather than imported twice, so a regenerated take shows its new audio.
+- A new mono audio track named `RedVoice VO` is added at the bottom; existing tracks are never changed. If a clip would overlap the one before it (a take longer than its subtitle), it goes on a second new track, `RedVoice VO 2`, instead of cutting it.
+- Lines from subtitles start at their subtitle's time, counted from the start of the timeline. Lines of a typed script follow each other from the playhead, half a second apart.
+- If something is missing, RedVoice says what: Resolve not installed, not open or not set to allow scripts, no project or timeline, or which files Resolve refused. The clips stay in the folder you picked either way.
+
+RedVoice talks to Resolve through Blackmagic's own scripting files, which Resolve installs. It looks for them in Blackmagic's standard folders; set `RESOLVE_SCRIPT_API` and `RESOLVE_SCRIPT_LIB` (as in Resolve's scripting README) if Resolve is installed somewhere else. The connection runs in a separate helper process, so a problem in Resolve cannot crash RedVoice.
+
 ## Files
 
 - Names: `line-03_take-02.wav`, numbered by position in the script and padded so they sort in order (`line-120_...` past 99 lines).
@@ -33,4 +48,4 @@ Turn a voice-over script into one clip per line, with several takes of each line
 
 ## Code
 
-`electron/src/renderer/src/features/script/` (page, model, generation runner, WAV export) and `electron/src/main/save-folder.ts` (the folder save behind `files.saveToFolder`).
+`electron/src/renderer/src/features/script/` (page, model, generation runner, WAV export, Resolve send), `electron/src/main/save-folder.ts` (the folder save behind `files.saveToFolder`), and for Resolve `backend/api/routers/resolve.py` with `backend/services/resolve_timeline.py`.

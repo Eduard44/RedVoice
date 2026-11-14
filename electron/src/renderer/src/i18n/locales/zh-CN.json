@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} 秒",
     "over": "超出 {{seconds}} 秒",
     "import_failed": "在 {{name}} 中没有找到带时间的字幕。",
-    "timed_locked": "脚本来自字幕文件。移除时间后才能作为文本编辑。"
+    "timed_locked": "脚本来自字幕文件。移除时间后才能作为文本编辑。",
+    "send_resolve": "发送到 Resolve",
+    "send_resolve_hint": "导出所选录音，并放到 DaVinci Resolve 当前时间线的新音频轨道上",
+    "resolve_sent": "已将 {{count}} 个片段放到 {{timeline}} 的“{{track}}”上",
+    "resolve_not_installed": "未找到 DaVinci Resolve 的脚本文件。请在这台电脑上安装 DaVinci Resolve Studio。",
+    "resolve_not_running": "无法连接 DaVinci Resolve。请打开 Resolve Studio 并设置 Preferences › System › General › External scripting using › Local。",
+    "resolve_no_project": "请先在 DaVinci Resolve 中打开一个项目。",
+    "resolve_no_timeline": "请先在 DaVinci Resolve 中打开一条时间线。",
+    "resolve_import_failed": "Resolve 无法导入：{{files}}",
+    "resolve_track_failed": "Resolve 无法添加音频轨道。",
+    "resolve_place_failed": "Resolve 无法放置：{{files}}",
+    "resolve_timeout": "DaVinci Resolve 未及时响应。请确认它没有在忙，然后重试。",
+    "resolve_failed": "发送到 Resolve 失败。片段已保存在你选择的文件夹中。"
   }
 }

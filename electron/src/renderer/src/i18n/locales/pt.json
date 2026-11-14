@@ -4835,6 +4835,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s longa demais",
     "import_failed": "Nenhuma legenda com tempos foi encontrada em {{name}}.",
-    "timed_locked": "O roteiro vem do arquivo de legendas. Remova a sincronização para editá-lo como texto."
+    "timed_locked": "O roteiro vem do arquivo de legendas. Remova a sincronização para editá-lo como texto.",
+    "send_resolve": "Enviar para o Resolve",
+    "send_resolve_hint": "Exportar as tomadas escolhidas e colocá-las numa nova faixa de áudio da timeline aberta no DaVinci Resolve",
+    "resolve_sent": "{{count}} clipes colocados em “{{track}}” em {{timeline}}",
+    "resolve_not_installed": "Os arquivos de script do DaVinci Resolve não foram encontrados. Instale o DaVinci Resolve Studio neste computador.",
+    "resolve_not_running": "Não foi possível acessar o DaVinci Resolve. Abra o Resolve Studio e defina Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Abra primeiro um projeto no DaVinci Resolve.",
+    "resolve_no_timeline": "Abra primeiro uma timeline no DaVinci Resolve.",
+    "resolve_import_failed": "O Resolve não conseguiu importar: {{files}}",
+    "resolve_track_failed": "O Resolve não conseguiu adicionar uma faixa de áudio.",
+    "resolve_place_failed": "O Resolve não conseguiu colocar: {{files}}",
+    "resolve_timeout": "O DaVinci Resolve não respondeu a tempo. Verifique se ele não está ocupado e tente de novo.",
+    "resolve_failed": "O envio para o Resolve falhou. Os clipes estão salvos na pasta escolhida."
   }
 }

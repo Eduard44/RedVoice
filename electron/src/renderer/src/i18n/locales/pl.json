@@ -4861,6 +4861,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "O {{seconds}} s za długie",
     "import_failed": "W pliku {{name}} nie znaleziono napisów z czasami.",
-    "timed_locked": "Scenariusz pochodzi z pliku napisów. Usuń synchronizację, aby edytować go jako tekst."
+    "timed_locked": "Scenariusz pochodzi z pliku napisów. Usuń synchronizację, aby edytować go jako tekst.",
+    "send_resolve": "Wyślij do Resolve",
+    "send_resolve_hint": "Eksportuj wybrane ujęcia i umieść je na nowej ścieżce audio otwartej osi czasu w DaVinci Resolve",
+    "resolve_sent": "Umieszczono klipy: {{count}} na „{{track}}” w {{timeline}}",
+    "resolve_not_installed": "Nie znaleziono plików skryptowych DaVinci Resolve. Zainstaluj DaVinci Resolve Studio na tym komputerze.",
+    "resolve_not_running": "Brak połączenia z DaVinci Resolve. Otwórz Resolve Studio i ustaw Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Najpierw otwórz projekt w DaVinci Resolve.",
+    "resolve_no_timeline": "Najpierw otwórz oś czasu w DaVinci Resolve.",
+    "resolve_import_failed": "Resolve nie zaimportował: {{files}}",
+    "resolve_track_failed": "Resolve nie mógł dodać ścieżki audio.",
+    "resolve_place_failed": "Resolve nie umieścił: {{files}}",
+    "resolve_timeout": "DaVinci Resolve nie odpowiedział na czas. Sprawdź, czy nie jest zajęty, i spróbuj ponownie.",
+    "resolve_failed": "Wysyłanie do Resolve nie powiodło się. Klipy są zapisane w wybranym folderze."
   }
 }

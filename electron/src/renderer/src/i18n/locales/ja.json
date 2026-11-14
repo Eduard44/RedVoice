@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} 秒",
     "over": "{{seconds}} 秒長すぎます",
     "import_failed": "{{name}} にタイミング付きの字幕が見つかりません。",
-    "timed_locked": "台本は字幕ファイルから読み込まれています。テキストとして編集するにはタイミングを解除してください。"
+    "timed_locked": "台本は字幕ファイルから読み込まれています。テキストとして編集するにはタイミングを解除してください。",
+    "send_resolve": "Resolve に送る",
+    "send_resolve_hint": "選んだテイクを書き出し、DaVinci Resolve で開いているタイムラインの新しいオーディオトラックに配置します",
+    "resolve_sent": "{{timeline}} の「{{track}}」に {{count}} 個のクリップを配置しました",
+    "resolve_not_installed": "DaVinci Resolve のスクリプトファイルが見つかりません。このコンピューターに DaVinci Resolve Studio をインストールしてください。",
+    "resolve_not_running": "DaVinci Resolve に接続できません。Resolve Studio を開き、Preferences › System › General › External scripting using › Local に設定してください。",
+    "resolve_no_project": "先に DaVinci Resolve でプロジェクトを開いてください。",
+    "resolve_no_timeline": "先に DaVinci Resolve でタイムラインを開いてください。",
+    "resolve_import_failed": "Resolve が読み込めませんでした: {{files}}",
+    "resolve_track_failed": "Resolve がオーディオトラックを追加できませんでした。",
+    "resolve_place_failed": "Resolve が配置できませんでした: {{files}}",
+    "resolve_timeout": "DaVinci Resolve が時間内に応答しませんでした。処理中でないことを確認して、もう一度お試しください。",
+    "resolve_failed": "Resolve への送信に失敗しました。クリップは選んだフォルダーに保存されています。"
   }
 }

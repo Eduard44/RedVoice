@@ -6,6 +6,7 @@ const mocks = vi.hoisted(() => ({
   generate: vi.fn(),
   save: vi.fn(),
   fetch: vi.fn(),
+  json: vi.fn(),
   toastError: vi.fn(),
   toastSuccess: vi.fn(),
 }));
@@ -36,6 +37,7 @@ vi.mock('@/lib/native-save', () => ({ saveNativeFolder: mocks.save }));
 vi.mock('@/lib/api/client', async (importOriginal) => ({
   ...(await importOriginal<object>()),
   apiFetch: mocks.fetch,
+  apiJson: mocks.json,
 }));
 vi.mock('./wav-export', () => ({ toTimelineWav: () => new Uint8Array([1, 2, 3]) }));
 
@@ -217,4 +219,49 @@ it('can remove the timing and edit the script as text again', async () => {
   expect(screen.queryByTestId('subtitle-timing')).toBeNull();
   expect(screen.queryAllByTestId('line-slot')).toHaveLength(0);
   expect(screen.getByLabelText('script.script_text')).not.toHaveAttribute('readonly');
+});
+
+it('sends the chosen takes to Resolve at their subtitle times', async () => {
+  mocks.save.mockResolvedValue({
+    canceled: false,
+    path: 'C:\\VO',
+    written: ['line-01_take-01.wav', 'line-02_take-01.wav', 'voice-over.srt'],
+  });
+  mocks.json.mockResolvedValue({
+    ok: true,
+    code: null,
+    timeline: 'Edit v3',
+    tracks: ['RedVoice VO'],
+    placed: 2,
+    files: [],
+    warnings: [],
+  });
+  await importSubtitles();
+  fireEvent.click(screen.getByText('script.generate'));
+  await waitFor(() => expect(screen.getAllByLabelText(/script.play_take/)).toHaveLength(6));
+  fireEvent.click(screen.getByText('script.send_resolve'));
+  await waitFor(() => expect(mocks.json).toHaveBeenCalledTimes(1));
+  const [path, init] = mocks.json.mock.calls[0]! as [string, { body: string }];
+  expect(path).toBe('/resolve/send');
+  expect(JSON.parse(init.body)).toEqual({
+    folder: 'C:\\VO',
+    clips: [
+      { file: 'line-01_take-01.wav', start_seconds: 1, duration_seconds: 1.2 },
+      { file: 'line-02_take-01.wav', start_seconds: 4, duration_seconds: 1.2 },
+    ],
+  });
+  expect(mocks.toastSuccess).toHaveBeenCalledWith('script.resolve_sent');
+});
+
+it('explains what to do when Resolve is not open, and skips it when the export is cancelled', async () => {
+  mocks.json.mockResolvedValue({ ok: false, code: 'resolve_not_running', files: [] });
+  await scriptWithTakes();
+  fireEvent.click(screen.getByText('script.send_resolve'));
+  await waitFor(() => expect(mocks.toastError).toHaveBeenCalledWith('script.resolve_not_running'));
+
+  mocks.json.mockClear();
+  mocks.save.mockResolvedValue({ canceled: true });
+  fireEvent.click(screen.getByText('script.send_resolve'));
+  await waitFor(() => expect(mocks.save).toHaveBeenCalledTimes(2));
+  expect(mocks.json).not.toHaveBeenCalled();
 });

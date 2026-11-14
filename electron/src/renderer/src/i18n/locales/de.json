@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s zu lang",
     "import_failed": "In {{name}} wurden keine Untertitel mit Zeiten gefunden.",
-    "timed_locked": "Das Skript stammt aus der Untertiteldatei. Entferne das Timing, um es als Text zu bearbeiten."
+    "timed_locked": "Das Skript stammt aus der Untertiteldatei. Entferne das Timing, um es als Text zu bearbeiten.",
+    "send_resolve": "An Resolve senden",
+    "send_resolve_hint": "Gewählte Takes exportieren und auf eine neue Audiospur in der offenen DaVinci-Resolve-Timeline legen",
+    "resolve_sent": "{{count}} Clips auf „{{track}}“ in {{timeline}} gelegt",
+    "resolve_not_installed": "Die Skriptdateien von DaVinci Resolve wurden nicht gefunden. Installiere DaVinci Resolve Studio auf diesem Computer.",
+    "resolve_not_running": "DaVinci Resolve ist nicht erreichbar. Öffne Resolve Studio und stelle Preferences › System › General › External scripting using › Local ein.",
+    "resolve_no_project": "Öffne zuerst ein Projekt in DaVinci Resolve.",
+    "resolve_no_timeline": "Öffne zuerst eine Timeline in DaVinci Resolve.",
+    "resolve_import_failed": "Resolve konnte nicht importieren: {{files}}",
+    "resolve_track_failed": "Resolve konnte keine Audiospur hinzufügen.",
+    "resolve_place_failed": "Resolve konnte nicht platzieren: {{files}}",
+    "resolve_timeout": "DaVinci Resolve hat nicht rechtzeitig geantwortet. Prüfe, dass es nicht beschäftigt ist, und versuche es erneut.",
+    "resolve_failed": "Senden an Resolve fehlgeschlagen. Die Clips liegen im gewählten Ordner."
   }
 }

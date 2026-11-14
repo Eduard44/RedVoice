@@ -4835,6 +4835,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s demasiado larga",
     "import_failed": "No se encontraron subtítulos con tiempos en {{name}}.",
-    "timed_locked": "El guion viene del archivo de subtítulos. Quita la sincronización para editarlo como texto."
+    "timed_locked": "El guion viene del archivo de subtítulos. Quita la sincronización para editarlo como texto.",
+    "send_resolve": "Enviar a Resolve",
+    "send_resolve_hint": "Exporta las tomas elegidas y colócalas en una pista de audio nueva de la línea de tiempo abierta en DaVinci Resolve",
+    "resolve_sent": "{{count}} clips colocados en «{{track}}» de {{timeline}}",
+    "resolve_not_installed": "No se encontraron los archivos de scripting de DaVinci Resolve. Instala DaVinci Resolve Studio en este equipo.",
+    "resolve_not_running": "No se pudo conectar con DaVinci Resolve. Abre Resolve Studio y ajusta Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Abre primero un proyecto en DaVinci Resolve.",
+    "resolve_no_timeline": "Abre primero una línea de tiempo en DaVinci Resolve.",
+    "resolve_import_failed": "Resolve no pudo importar: {{files}}",
+    "resolve_track_failed": "Resolve no pudo añadir una pista de audio.",
+    "resolve_place_failed": "Resolve no pudo colocar: {{files}}",
+    "resolve_timeout": "DaVinci Resolve no respondió a tiempo. Comprueba que no esté ocupado e inténtalo de nuevo.",
+    "resolve_failed": "El envío a Resolve falló. Los clips están guardados en la carpeta elegida."
   }
 }

@@ -204,13 +204,18 @@ export function takeFileName(draft: ScriptDraft, lineId: string, takeId: string)
 export interface ExportItem {
   name: string;
   take: ScriptTake;
+  lineId: string;
 }
 
 /** What an export writes: one file per line (its chosen take), or every take. */
 export function exportPlan(draft: ScriptDraft, which: 'chosen' | 'all'): ExportItem[] {
   return draft.lines.flatMap((line) => {
     const takes = which === 'all' ? line.takes : [chosenTake(line)].filter((take) => take !== null);
-    return takes.map((take) => ({ name: takeFileName(draft, line.id, take.id), take }));
+    return takes.map((take) => ({
+      name: takeFileName(draft, line.id, take.id),
+      take,
+      lineId: line.id,
+    }));
   });
 }
 

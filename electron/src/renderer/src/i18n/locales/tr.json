@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s fazla uzun",
     "import_failed": "{{name}} içinde zamanlamalı altyazı bulunamadı.",
-    "timed_locked": "Senaryo altyazı dosyasından geliyor. Metin olarak düzenlemek için zamanlamayı kaldırın."
+    "timed_locked": "Senaryo altyazı dosyasından geliyor. Metin olarak düzenlemek için zamanlamayı kaldırın.",
+    "send_resolve": "Resolve'a gönder",
+    "send_resolve_hint": "Seçilen çekimleri dışa aktar ve DaVinci Resolve'da açık zaman çizelgesinde yeni bir ses kanalına yerleştir",
+    "resolve_sent": "{{count}} klip {{timeline}} içinde “{{track}}” kanalına yerleştirildi",
+    "resolve_not_installed": "DaVinci Resolve betik dosyaları bulunamadı. Bu bilgisayara DaVinci Resolve Studio kurun.",
+    "resolve_not_running": "DaVinci Resolve'a ulaşılamadı. Resolve Studio'yu açın ve Preferences › System › General › External scripting using › Local ayarını yapın.",
+    "resolve_no_project": "Önce DaVinci Resolve'da bir proje açın.",
+    "resolve_no_timeline": "Önce DaVinci Resolve'da bir zaman çizelgesi açın.",
+    "resolve_import_failed": "Resolve içe aktaramadı: {{files}}",
+    "resolve_track_failed": "Resolve ses kanalı ekleyemedi.",
+    "resolve_place_failed": "Resolve yerleştiremedi: {{files}}",
+    "resolve_timeout": "DaVinci Resolve zamanında yanıt vermedi. Meşgul olmadığından emin olup tekrar deneyin.",
+    "resolve_failed": "Resolve'a gönderme başarısız. Klipler seçtiğiniz klasöre kaydedildi."
   }
 }

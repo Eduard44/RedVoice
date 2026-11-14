@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import {
   CaptionsIcon,
   CheckIcon,
+  ClapperboardIcon,
   FolderDownIcon,
   ListPlusIcon,
   PlayIcon,
@@ -58,6 +59,7 @@ import {
   type TakeJob,
   type TakeProgress,
 } from './script-generate';
+import { resolveClips, resolveErrorKey, sendToResolve } from './resolve';
 import { toTimelineWav } from './wav-export';
 import { parseSubtitles, shortTime } from './subtitles';
 
@@ -161,41 +163,73 @@ export function ScriptPage() {
     });
   }
 
-  async function exportTakes(which: 'chosen' | 'all') {
+  /** Converts the takes to timeline WAVs and writes them to a folder the user picks. */
+  async function writeExport(which: 'chosen' | 'all') {
     const plan = exportPlan(draft, which);
     if (!plan.length) {
       toast.error(t('script.nothing_to_export'));
-      return;
+      return null;
     }
+    const files = [];
+    for (const item of plan) {
+      const response = await apiFetch('/audio/' + encodeURIComponent(item.take.audioPath)).catch(
+        () => null,
+      );
+      if (!response?.ok) {
+        toast.error(t('script.take_missing', { number: lineNumber(item.lineId) }));
+        return null;
+      }
+      files.push({ name: item.name, data: toTimelineWav(await response.arrayBuffer()) });
+    }
+    // The matching subtitles: cue N belongs to clip line-N.
+    const subtitles = exportSubtitles(draft);
+    if (subtitles)
+      files.push({ name: SUBTITLE_EXPORT_NAME, data: new TextEncoder().encode(subtitles) });
+    const saved = await saveNativeFolder({
+      files,
+      labels: {
+        title: t('script.export_title'),
+        replaceMessage: t('script.replace_message'),
+        replace: t('script.replace'),
+        cancel: t('script.cancel'),
+      },
+    });
+    if (saved === null) {
+      toast.error(t('script.desktop_only'));
+      return null;
+    }
+    return saved.canceled ? null : { plan, saved };
+  }
+
+  async function exportTakes(which: 'chosen' | 'all') {
     setExporting(true);
     try {
-      const files = [];
-      for (const item of plan) {
-        const response = await apiFetch('/audio/' + encodeURIComponent(item.take.audioPath)).catch(
-          () => null,
+      const done = await writeExport(which);
+      if (done) toast.success(t('script.exported', { count: done.plan.length }));
+    } catch (error) {
+      toast.error(describeError(error));
+    } finally {
+      setExporting(false);
+    }
+  }
+
+  /** Exports the chosen takes, then places them on the open Resolve timeline. */
+  async function sendTakesToResolve() {
+    setExporting(true);
+    try {
+      const done = await writeExport('chosen');
+      if (!done?.saved.path) return;
+      const clips = resolveClips(draft, done.plan, done.saved.written ?? []);
+      const result = await sendToResolve(done.saved.path, clips);
+      if (result.ok)
+        toast.success(
+          t('script.resolve_sent', {
+            count: result.placed,
+            track: result.tracks[0] ?? '',
+            timeline: result.timeline ?? '',
+          }),
         );
-        if (!response?.ok) {
-          const line = draft.lines.find((entry) => entry.takes.includes(item.take));
-          toast.error(t('script.take_missing', { number: line ? lineNumber(line.id) : 0 }));
-          return;
-        }
-        files.push({ name: item.name, data: toTimelineWav(await response.arrayBuffer()) });
-      }
-      // The matching subtitles: cue N belongs to clip line-N.
-      const subtitles = exportSubtitles(draft);
-      if (subtitles)
-        files.push({ name: SUBTITLE_EXPORT_NAME, data: new TextEncoder().encode(subtitles) });
-      const saved = await saveNativeFolder({
-        files,
-        labels: {
-          title: t('script.export_title'),
-          replaceMessage: t('script.replace_message'),
-          replace: t('script.replace'),
-          cancel: t('script.cancel'),
-        },
-      });
-      if (saved === null) toast.error(t('script.desktop_only'));
-      else if (!saved.canceled) toast.success(t('script.exported', { count: plan.length }));
+      else toast.error(t(resolveErrorKey(result.code), { files: result.files.join(', ') }));
     } catch (error) {
       toast.error(describeError(error));
     } finally {
@@ -227,6 +261,16 @@ export function ScriptPage() {
             onClick={() => void exportTakes('all')}
           >
             {t('script.export_all')}
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            disabled={busy || !draft.lines.some((line) => line.takes.length)}
+            onClick={() => void sendTakesToResolve()}
+            title={t('script.send_resolve_hint')}
+          >
+            <ClapperboardIcon />
+            {t('script.send_resolve')}
           </Button>
         </div>
       </WorkspaceHeader>

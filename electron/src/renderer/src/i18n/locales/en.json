@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s too long",
     "import_failed": "No subtitles with timings were found in {{name}}.",
-    "timed_locked": "The script comes from the subtitle file. Remove timing to edit it as text."
+    "timed_locked": "The script comes from the subtitle file. Remove timing to edit it as text.",
+    "send_resolve": "Send to Resolve",
+    "send_resolve_hint": "Export the chosen takes and place them on a new audio track in the open DaVinci Resolve timeline",
+    "resolve_sent": "Placed {{count}} clips on “{{track}}” in {{timeline}}",
+    "resolve_not_installed": "DaVinci Resolve's scripting files were not found. Install DaVinci Resolve Studio on this computer.",
+    "resolve_not_running": "Could not reach DaVinci Resolve. Open Resolve Studio and set Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Open a project in DaVinci Resolve first.",
+    "resolve_no_timeline": "Open a timeline in DaVinci Resolve first.",
+    "resolve_import_failed": "Resolve could not import: {{files}}",
+    "resolve_track_failed": "Resolve could not add an audio track.",
+    "resolve_place_failed": "Resolve could not place: {{files}}",
+    "resolve_timeout": "DaVinci Resolve did not answer in time. Make sure it is not busy, then try again.",
+    "resolve_failed": "Sending to Resolve failed. The clips are saved in the folder you picked."
   }
 }

@@ -109,6 +109,15 @@ bun run setup:api
 
 If the script says it cannot reach RedVoice, check the app is running. If Windows reserved port 3900, RedVoice picked the next free port: add `--base http://127.0.0.1:3901` (or the port shown in the app's logs).
 
+## 8. Test D: Send to Resolve
+
+1. In DaVinci Resolve Studio: **Preferences › System › General › External scripting using › Local**, then restart Resolve.
+2. Open a test project with a timeline (any frame rate; 23.976 or 25 is fine). Put the playhead somewhere after the start.
+3. In RedVoice, open **Script**, paste two or three short lines, generate takes, then press **Send to Resolve** and pick a new empty folder.
+4. In Resolve, check: a `RedVoice` bin with the clips, a new `RedVoice VO` audio track, the clips one after another from the playhead, nothing else on the timeline changed.
+5. Repeat with an imported `.srt`: each clip should start exactly where its subtitle starts. Turn on Resolve's subtitle track or import the same `.srt` there to compare.
+6. Note whether any clip's last syllable is cut, or if there is extra silence at the end.
+
 ## Results to send back
 
 | Item | Result |
@@ -121,5 +130,6 @@ If the script says it cannot reach RedVoice, check the app is running. If Window
 | CPU: the script's summary line | |
 | ROCm: setup worked? the script's summary line | |
 | Sound problems (any path) | |
+| Resolve: version, clips in the right place? cut endings? any error text | |
 
 Paste the three summary lines the script printed, plus the table above. If something fails, copy the error text and the last lines of Settings › Logs.

@@ -4835,6 +4835,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s troppo lungo",
     "import_failed": "Nessun sottotitolo con tempi trovato in {{name}}.",
-    "timed_locked": "Il copione viene dal file dei sottotitoli. Rimuovi la sincronizzazione per modificarlo come testo."
+    "timed_locked": "Il copione viene dal file dei sottotitoli. Rimuovi la sincronizzazione per modificarlo come testo.",
+    "send_resolve": "Invia a Resolve",
+    "send_resolve_hint": "Esporta le take scelte e mettile su una nuova traccia audio della timeline aperta in DaVinci Resolve",
+    "resolve_sent": "{{count}} clip posizionate su «{{track}}» in {{timeline}}",
+    "resolve_not_installed": "File di scripting di DaVinci Resolve non trovati. Installa DaVinci Resolve Studio su questo computer.",
+    "resolve_not_running": "Impossibile raggiungere DaVinci Resolve. Apri Resolve Studio e imposta Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Apri prima un progetto in DaVinci Resolve.",
+    "resolve_no_timeline": "Apri prima una timeline in DaVinci Resolve.",
+    "resolve_import_failed": "Resolve non è riuscito a importare: {{files}}",
+    "resolve_track_failed": "Resolve non è riuscito ad aggiungere una traccia audio.",
+    "resolve_place_failed": "Resolve non è riuscito a posizionare: {{files}}",
+    "resolve_timeout": "DaVinci Resolve non ha risposto in tempo. Controlla che non sia occupato e riprova.",
+    "resolve_failed": "Invio a Resolve non riuscito. Le clip sono salvate nella cartella scelta."
   }
 }
