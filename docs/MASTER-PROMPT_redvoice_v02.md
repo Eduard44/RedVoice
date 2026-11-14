@@ -1,6 +1,6 @@
 # RedVoice master prompt (v02, 2026-11-13)
 
-Paste this at the start of any Claude session that works on the RedVoice repo, or point Claude at this file. It replaces v01 (kept in `docs/` for reference): it adds what was built in milestones 1 and 2, corrects the AMD facts, and records the working rules learned so far.
+The project brief for RedVoice. It replaces v01 (kept in `docs/` for reference): it adds what was built in milestones 1 and 2, corrects the AMD facts, and records the working rules learned so far.
 
 ## What RedVoice is
 
@@ -59,7 +59,7 @@ Plan: follow `docs/redvoice-pc-test-plan.md` on the test PC, then decide the def
 
 ## Rules for working on this repo
 
-- Read the repo's own `CLAUDE.md` and `AGENTS.md` first and follow their conventions.
+- Read the repository's own contributor rules (the instruction files in the repository root) first and follow their conventions.
 - Keep the AGPL-3.0 license, all existing copyright notices and `LICENSE-NOTICE.md`. State in the README that RedVoice is a modified fork of VoiceStudio and summarize what changed.
 - Rename user-facing branding to RedVoice (app name, window title, icons, installer names). Do not use the VoiceStudio name or logo as RedVoice's own branding.
 - Remove or disable calls to VoiceStudio servers: installer scripts, update checks, Pro/Cloud/account endpoints, telemetry if any.
@@ -70,7 +70,7 @@ Plan: follow `docs/redvoice-pc-test-plan.md` on the test PC, then decide the def
 
 Learned while working (milestones 1 and 2):
 
-- Commits carry the owner's git identity (the name and email on their own commits). No AI co-author lines, "Generated with" lines or session links in commits or pull request descriptions: the repo's `commit-identity` check rejects them.
+- Commits and pull requests carry only the owner's git identity: no extra co-author, attribution or tool lines and no session links. The repo's `commit-identity` check enforces this.
 - The VoiceStudio contributor agreement (CLA) bot comments on every pull request and sets it to draft. The owner does not sign it. Mark the pull request ready and merge once the real checks pass.
 - Run the formatter only on files you changed. Formatting a whole folder rewrites upstream files and makes later upstream merges harder.
 - The product name lives in `config/app.json`. Interface texts keep the upstream catalogs; `config/product-name.mjs` swaps VoiceStudio for RedVoice when a text is shown, except where it names upstream's own services (Pro, Cloud, accounts, donations).
