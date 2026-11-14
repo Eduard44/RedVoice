@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s te lang",
     "import_failed": "Geen ondertitels met tijden gevonden in {{name}}.",
-    "timed_locked": "Het script komt uit het ondertitelbestand. Verwijder de timing om het als tekst te bewerken."
+    "timed_locked": "Het script komt uit het ondertitelbestand. Verwijder de timing om het als tekst te bewerken.",
+    "send_resolve": "Naar Resolve sturen",
+    "send_resolve_hint": "De gekozen takes exporteren en op een nieuw audiospoor in de open DaVinci Resolve-tijdlijn zetten",
+    "resolve_sent": "{{count}} clips op ‘{{track}}’ in {{timeline}} gezet",
+    "resolve_not_installed": "De scriptbestanden van DaVinci Resolve zijn niet gevonden. Installeer DaVinci Resolve Studio op deze computer.",
+    "resolve_not_running": "DaVinci Resolve is niet bereikbaar. Open Resolve Studio en stel Preferences › System › General › External scripting using › Local in.",
+    "resolve_no_project": "Open eerst een project in DaVinci Resolve.",
+    "resolve_no_timeline": "Open eerst een tijdlijn in DaVinci Resolve.",
+    "resolve_import_failed": "Resolve kon niet importeren: {{files}}",
+    "resolve_track_failed": "Resolve kon geen audiospoor toevoegen.",
+    "resolve_place_failed": "Resolve kon niet plaatsen: {{files}}",
+    "resolve_timeout": "DaVinci Resolve antwoordde niet op tijd. Controleer of het niet bezig is en probeer het opnieuw.",
+    "resolve_failed": "Versturen naar Resolve mislukt. De clips staan in de gekozen map."
   }
 }

@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} dtk",
     "over": "Kelebihan {{seconds}} dtk",
     "import_failed": "Tidak ada subtitel bertanda waktu di {{name}}.",
-    "timed_locked": "Naskah berasal dari file subtitel. Hapus penyelarasan untuk mengeditnya sebagai teks."
+    "timed_locked": "Naskah berasal dari file subtitel. Hapus penyelarasan untuk mengeditnya sebagai teks.",
+    "send_resolve": "Kirim ke Resolve",
+    "send_resolve_hint": "Ekspor take yang dipilih dan letakkan di trek audio baru pada timeline yang terbuka di DaVinci Resolve",
+    "resolve_sent": "{{count}} klip diletakkan di “{{track}}” dalam {{timeline}}",
+    "resolve_not_installed": "Berkas skrip DaVinci Resolve tidak ditemukan. Instal DaVinci Resolve Studio di komputer ini.",
+    "resolve_not_running": "Tidak dapat menghubungi DaVinci Resolve. Buka Resolve Studio dan atur Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Buka proyek di DaVinci Resolve terlebih dahulu.",
+    "resolve_no_timeline": "Buka timeline di DaVinci Resolve terlebih dahulu.",
+    "resolve_import_failed": "Resolve tidak dapat mengimpor: {{files}}",
+    "resolve_track_failed": "Resolve tidak dapat menambahkan trek audio.",
+    "resolve_place_failed": "Resolve tidak dapat meletakkan: {{files}}",
+    "resolve_timeout": "DaVinci Resolve tidak menjawab tepat waktu. Pastikan tidak sedang sibuk, lalu coba lagi.",
+    "resolve_failed": "Gagal mengirim ke Resolve. Klip tersimpan di folder yang Anda pilih."
   }
 }

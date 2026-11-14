@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} giây",
     "over": "Dài hơn {{seconds}} giây",
     "import_failed": "Không tìm thấy phụ đề có thời gian trong {{name}}.",
-    "timed_locked": "Kịch bản lấy từ tệp phụ đề. Bỏ khớp thời gian để sửa dưới dạng văn bản."
+    "timed_locked": "Kịch bản lấy từ tệp phụ đề. Bỏ khớp thời gian để sửa dưới dạng văn bản.",
+    "send_resolve": "Gửi sang Resolve",
+    "send_resolve_hint": "Xuất các take đã chọn và đặt chúng lên một track âm thanh mới trong timeline đang mở của DaVinci Resolve",
+    "resolve_sent": "Đã đặt {{count}} clip lên “{{track}}” trong {{timeline}}",
+    "resolve_not_installed": "Không tìm thấy tệp scripting của DaVinci Resolve. Hãy cài DaVinci Resolve Studio trên máy tính này.",
+    "resolve_not_running": "Không kết nối được DaVinci Resolve. Mở Resolve Studio và đặt Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Hãy mở một dự án trong DaVinci Resolve trước.",
+    "resolve_no_timeline": "Hãy mở một timeline trong DaVinci Resolve trước.",
+    "resolve_import_failed": "Resolve không nhập được: {{files}}",
+    "resolve_track_failed": "Resolve không thêm được track âm thanh.",
+    "resolve_place_failed": "Resolve không đặt được: {{files}}",
+    "resolve_timeout": "DaVinci Resolve không trả lời kịp. Kiểm tra xem nó có đang bận không rồi thử lại.",
+    "resolve_failed": "Gửi sang Resolve thất bại. Các clip đã được lưu trong thư mục bạn chọn."
   }
 }

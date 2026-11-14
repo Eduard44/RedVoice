@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} s",
     "over": "{{seconds}} s för lång",
     "import_failed": "Inga undertexter med tider hittades i {{name}}.",
-    "timed_locked": "Manuset kommer från undertextfilen. Ta bort tidsättningen för att redigera det som text."
+    "timed_locked": "Manuset kommer från undertextfilen. Ta bort tidsättningen för att redigera det som text.",
+    "send_resolve": "Skicka till Resolve",
+    "send_resolve_hint": "Exportera de valda tagningarna och lägg dem på ett nytt ljudspår i den öppna tidslinjen i DaVinci Resolve",
+    "resolve_sent": "{{count}} klipp lagda på ”{{track}}” i {{timeline}}",
+    "resolve_not_installed": "DaVinci Resolves skriptfiler hittades inte. Installera DaVinci Resolve Studio på den här datorn.",
+    "resolve_not_running": "Kunde inte nå DaVinci Resolve. Öppna Resolve Studio och ställ in Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Öppna först ett projekt i DaVinci Resolve.",
+    "resolve_no_timeline": "Öppna först en tidslinje i DaVinci Resolve.",
+    "resolve_import_failed": "Resolve kunde inte importera: {{files}}",
+    "resolve_track_failed": "Resolve kunde inte lägga till ett ljudspår.",
+    "resolve_place_failed": "Resolve kunde inte placera: {{files}}",
+    "resolve_timeout": "DaVinci Resolve svarade inte i tid. Kontrollera att det inte är upptaget och försök igen.",
+    "resolve_failed": "Det gick inte att skicka till Resolve. Klippen finns i den valda mappen."
   }
 }

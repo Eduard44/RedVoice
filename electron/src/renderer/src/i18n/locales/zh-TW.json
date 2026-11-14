@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} 秒",
     "over": "超出 {{seconds}} 秒",
     "import_failed": "在 {{name}} 中找不到含時間的字幕。",
-    "timed_locked": "腳本來自字幕檔。移除時間後才能當作文字編輯。"
+    "timed_locked": "腳本來自字幕檔。移除時間後才能當作文字編輯。",
+    "send_resolve": "傳送到 Resolve",
+    "send_resolve_hint": "匯出所選錄音，並放到 DaVinci Resolve 目前時間軸的新音訊軌上",
+    "resolve_sent": "已將 {{count}} 個片段放到 {{timeline}} 的「{{track}}」上",
+    "resolve_not_installed": "找不到 DaVinci Resolve 的腳本檔案。請在這台電腦上安裝 DaVinci Resolve Studio。",
+    "resolve_not_running": "無法連線到 DaVinci Resolve。請開啟 Resolve Studio 並設定 Preferences › System › General › External scripting using › Local。",
+    "resolve_no_project": "請先在 DaVinci Resolve 中開啟一個專案。",
+    "resolve_no_timeline": "請先在 DaVinci Resolve 中開啟一條時間軸。",
+    "resolve_import_failed": "Resolve 無法匯入：{{files}}",
+    "resolve_track_failed": "Resolve 無法新增音訊軌。",
+    "resolve_place_failed": "Resolve 無法放置：{{files}}",
+    "resolve_timeout": "DaVinci Resolve 未及時回應。請確認它沒有在忙碌，然後再試一次。",
+    "resolve_failed": "傳送到 Resolve 失敗。片段已儲存在你選擇的資料夾中。"
   }
 }

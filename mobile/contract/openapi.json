@@ -3699,6 +3699,136 @@
     "title": "RateFitReq",
     "type": "object"
    },
+   "ResolveClip": {
+    "properties": {
+     "duration_seconds": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Duration Seconds"
+     },
+     "file": {
+      "maxLength": 255,
+      "title": "File",
+      "type": "string"
+     },
+     "start_seconds": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Start Seconds"
+     }
+    },
+    "required": [
+     "file"
+    ],
+    "title": "ResolveClip",
+    "type": "object"
+   },
+   "ResolveSendRequest": {
+    "properties": {
+     "clips": {
+      "items": {
+       "$ref": "#/components/schemas/ResolveClip"
+      },
+      "maxItems": 500,
+      "title": "Clips",
+      "type": "array"
+     },
+     "folder": {
+      "maxLength": 4096,
+      "title": "Folder",
+      "type": "string"
+     },
+     "track_name": {
+      "default": "RedVoice VO",
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Track Name",
+      "type": "string"
+     }
+    },
+    "required": [
+     "folder",
+     "clips"
+    ],
+    "title": "ResolveSendRequest",
+    "type": "object"
+   },
+   "ResolveSendResult": {
+    "properties": {
+     "code": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Code"
+     },
+     "files": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Files",
+      "type": "array"
+     },
+     "ok": {
+      "title": "Ok",
+      "type": "boolean"
+     },
+     "placed": {
+      "default": 0,
+      "title": "Placed",
+      "type": "integer"
+     },
+     "timeline": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Timeline"
+     },
+     "tracks": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Tracks",
+      "type": "array"
+     },
+     "warnings": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+     }
+    },
+    "required": [
+     "ok"
+    ],
+    "title": "ResolveSendResult",
+    "type": "object"
+   },
    "RevealRequest": {
     "properties": {
      "path": {
@@ -18620,6 +18750,45 @@
      }
     },
     "summary": "Update Entry"
+   }
+  },
+  "/resolve/send": {
+   "post": {
+    "description": "Import the clips into Resolve and place them on new audio tracks.",
+    "operationId": "send_to_resolve_resolve_send_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ResolveSendRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ResolveSendResult"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Send To Resolve"
    }
   },
   "/setup/download-stream": {

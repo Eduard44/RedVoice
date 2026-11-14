@@ -4861,6 +4861,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} с",
     "over": "Довше на {{seconds}} с",
     "import_failed": "У файлі {{name}} не знайдено субтитрів із таймінгом.",
-    "timed_locked": "Сценарій узято з файлу субтитрів. Приберіть таймінг, щоб редагувати його як текст."
+    "timed_locked": "Сценарій узято з файлу субтитрів. Приберіть таймінг, щоб редагувати його як текст.",
+    "send_resolve": "Надіслати в Resolve",
+    "send_resolve_hint": "Експортувати вибрані дублі й розмістити їх на новій аудіодоріжці відкритого таймлайну DaVinci Resolve",
+    "resolve_sent": "Розміщено кліпів: {{count}} на «{{track}}» у {{timeline}}",
+    "resolve_not_installed": "Файли скриптів DaVinci Resolve не знайдено. Установіть DaVinci Resolve Studio на цей комп’ютер.",
+    "resolve_not_running": "Не вдалося зв’язатися з DaVinci Resolve. Відкрийте Resolve Studio і встановіть Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "Спершу відкрийте проєкт у DaVinci Resolve.",
+    "resolve_no_timeline": "Спершу відкрийте таймлайн у DaVinci Resolve.",
+    "resolve_import_failed": "Resolve не зміг імпортувати: {{files}}",
+    "resolve_track_failed": "Resolve не зміг додати аудіодоріжку.",
+    "resolve_place_failed": "Resolve не зміг розмістити: {{files}}",
+    "resolve_timeout": "DaVinci Resolve не відповів вчасно. Переконайтеся, що він не зайнятий, і спробуйте ще раз.",
+    "resolve_failed": "Не вдалося надіслати в Resolve. Кліпи збережено у вибраній теці."
   }
 }

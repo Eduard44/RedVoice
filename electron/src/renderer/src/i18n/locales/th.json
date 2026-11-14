@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} วิ",
     "over": "ยาวเกิน {{seconds}} วิ",
     "import_failed": "ไม่พบคำบรรยายที่มีเวลาใน {{name}}",
-    "timed_locked": "สคริปต์มาจากไฟล์คำบรรยาย เอาการตั้งเวลาออกเพื่อแก้ไขเป็นข้อความ"
+    "timed_locked": "สคริปต์มาจากไฟล์คำบรรยาย เอาการตั้งเวลาออกเพื่อแก้ไขเป็นข้อความ",
+    "send_resolve": "ส่งไปยัง Resolve",
+    "send_resolve_hint": "ส่งออกเทคที่เลือกและวางบนแทร็กเสียงใหม่ในไทม์ไลน์ที่เปิดอยู่ใน DaVinci Resolve",
+    "resolve_sent": "วาง {{count}} คลิปบน “{{track}}” ใน {{timeline}} แล้ว",
+    "resolve_not_installed": "ไม่พบไฟล์สคริปต์ของ DaVinci Resolve ติดตั้ง DaVinci Resolve Studio บนคอมพิวเตอร์เครื่องนี้",
+    "resolve_not_running": "เชื่อมต่อ DaVinci Resolve ไม่ได้ เปิด Resolve Studio แล้วตั้งค่า Preferences › System › General › External scripting using › Local",
+    "resolve_no_project": "เปิดโปรเจกต์ใน DaVinci Resolve ก่อน",
+    "resolve_no_timeline": "เปิดไทม์ไลน์ใน DaVinci Resolve ก่อน",
+    "resolve_import_failed": "Resolve นำเข้าไม่ได้: {{files}}",
+    "resolve_track_failed": "Resolve เพิ่มแทร็กเสียงไม่ได้",
+    "resolve_place_failed": "Resolve วางไม่ได้: {{files}}",
+    "resolve_timeout": "DaVinci Resolve ไม่ตอบกลับทันเวลา ตรวจสอบว่าไม่ได้ทำงานอื่นอยู่ แล้วลองอีกครั้ง",
+    "resolve_failed": "ส่งไปยัง Resolve ไม่สำเร็จ คลิปถูกบันทึกไว้ในโฟลเดอร์ที่คุณเลือก"
   }
 }

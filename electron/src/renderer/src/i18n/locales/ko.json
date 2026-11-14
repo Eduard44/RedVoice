@@ -4833,6 +4833,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}}초",
     "over": "{{seconds}}초 김",
     "import_failed": "{{name}}에서 타이밍이 있는 자막을 찾지 못했습니다.",
-    "timed_locked": "스크립트는 자막 파일에서 가져왔습니다. 텍스트로 편집하려면 타이밍을 제거하세요."
+    "timed_locked": "스크립트는 자막 파일에서 가져왔습니다. 텍스트로 편집하려면 타이밍을 제거하세요.",
+    "send_resolve": "Resolve로 보내기",
+    "send_resolve_hint": "선택한 테이크를 내보내고 DaVinci Resolve에 열린 타임라인의 새 오디오 트랙에 배치합니다",
+    "resolve_sent": "{{timeline}}의 “{{track}}”에 클립 {{count}}개를 배치했습니다",
+    "resolve_not_installed": "DaVinci Resolve 스크립트 파일을 찾을 수 없습니다. 이 컴퓨터에 DaVinci Resolve Studio를 설치하세요.",
+    "resolve_not_running": "DaVinci Resolve에 연결할 수 없습니다. Resolve Studio를 열고 Preferences › System › General › External scripting using › Local로 설정하세요.",
+    "resolve_no_project": "먼저 DaVinci Resolve에서 프로젝트를 여세요.",
+    "resolve_no_timeline": "먼저 DaVinci Resolve에서 타임라인을 여세요.",
+    "resolve_import_failed": "Resolve가 가져오지 못했습니다: {{files}}",
+    "resolve_track_failed": "Resolve가 오디오 트랙을 추가하지 못했습니다.",
+    "resolve_place_failed": "Resolve가 배치하지 못했습니다: {{files}}",
+    "resolve_timeout": "DaVinci Resolve가 제때 응답하지 않았습니다. 작업 중이 아닌지 확인한 뒤 다시 시도하세요.",
+    "resolve_failed": "Resolve로 보내지 못했습니다. 클립은 선택한 폴더에 저장되어 있습니다."
   }
 }

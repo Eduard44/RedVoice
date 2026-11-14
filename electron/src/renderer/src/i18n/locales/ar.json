@@ -4885,6 +4885,18 @@
     "slot_label": "{{start}} – {{end}} · {{seconds}} ث",
     "over": "أطول بـ {{seconds}} ث",
     "import_failed": "لم يتم العثور على ترجمات بتوقيت في {{name}}.",
-    "timed_locked": "النص مأخوذ من ملف الترجمة. أزل التوقيت لتحريره كنص."
+    "timed_locked": "النص مأخوذ من ملف الترجمة. أزل التوقيت لتحريره كنص.",
+    "send_resolve": "إرسال إلى Resolve",
+    "send_resolve_hint": "تصدير اللقطات المختارة ووضعها على مسار صوتي جديد في الخط الزمني المفتوح في DaVinci Resolve",
+    "resolve_sent": "تم وضع {{count}} مقاطع على «{{track}}» في {{timeline}}",
+    "resolve_not_installed": "لم يتم العثور على ملفات البرمجة في DaVinci Resolve. ثبّت DaVinci Resolve Studio على هذا الحاسوب.",
+    "resolve_not_running": "تعذّر الوصول إلى DaVinci Resolve. افتح Resolve Studio واضبط Preferences › System › General › External scripting using › Local.",
+    "resolve_no_project": "افتح مشروعًا في DaVinci Resolve أولًا.",
+    "resolve_no_timeline": "افتح خطًا زمنيًا في DaVinci Resolve أولًا.",
+    "resolve_import_failed": "تعذّر على Resolve استيراد: {{files}}",
+    "resolve_track_failed": "تعذّر على Resolve إضافة مسار صوتي.",
+    "resolve_place_failed": "تعذّر على Resolve وضع: {{files}}",
+    "resolve_timeout": "لم يستجب DaVinci Resolve في الوقت المناسب. تأكد أنه غير مشغول ثم حاول مرة أخرى.",
+    "resolve_failed": "فشل الإرسال إلى Resolve. المقاطع محفوظة في المجلد الذي اخترته."
   }
 }

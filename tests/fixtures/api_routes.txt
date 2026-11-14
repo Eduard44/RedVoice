@@ -316,6 +316,7 @@ POST /projects
 POST /pronunciation
 POST /pronunciation/import
 POST /pronunciation/test
+POST /resolve/send
 POST /setup/warmup
 POST /stories/encode
 POST /system/crash/ack
