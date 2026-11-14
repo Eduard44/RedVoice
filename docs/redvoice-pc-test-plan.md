@@ -4,6 +4,8 @@ What to run on the test PC (Windows 11, Ryzen 7 7800X3D, Radeon RX 9070 XT) once
 
 Use PowerShell. Lines starting with `#` are notes, not commands. Write down the results in the table at the end.
 
+> **Easier way to just use RedVoice:** install it with the Windows installer (`docs/redvoice-install-windows.md`). That needs none of the tools below, and the installer already contains the Vulkan speech engine. The steps in this plan run RedVoice from its source code, which is what the timing script and the ROCm test (Test C) need. Tests A, B and D can also be done by ear in the installed app.
+
 ## 1. Install the tools (once)
 
 ```powershell
