@@ -126,9 +126,14 @@ def cla_hold(event_name: str, event: dict, repo: str) -> bool:
     return cla_held(pr, {int(s["id"]) for s in signatures})
 
 
+# RedVoice: there is no contributor agreement (the CLA workflows are removed), so
+# nobody could sign to release a hold. The hold stays off; set True to restore it.
+CLA_HOLD_ENABLED = False
+
+
 def held_or_clear(event_name: str, event: dict | None, repo: str) -> bool:
     """Any doubt (API failure, missing store) means "clear": CI runs."""
-    if event is None:
+    if event is None or not CLA_HOLD_ENABLED:
         return False
     try:
         held = cla_hold(event_name, event, repo)

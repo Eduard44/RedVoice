@@ -13,6 +13,11 @@ Thanks for your interest in improving VoiceStudio! This guide covers everything 
 
 ---
 
+> **RedVoice:** this is a personal fork of VoiceStudio. It has no contributor
+> agreement: the CLA bot and its workflows are switched off here, and nothing in
+> this repository asks you to sign anything. The CLA sections in this guide
+> describe upstream VoiceStudio and apply only to pull requests sent there.
+
 > **Before your first pull request: sign the CLA first.** Unless exempt under the
 > [CLA checker’s policy](#contribution-licensing), sign the
 > [Contributor License Agreement](CLA-1.0.md) once. It takes a minute: post the
