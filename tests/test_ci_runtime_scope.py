@@ -212,7 +212,9 @@ def test_cla_held(pr, signed, held):
     assert scope.cla_held(pr, signed) is held
 
 
-def _scope_main(tmp_path, monkeypatch, event_name, event, api, argv=()):
+def _scope_main(tmp_path, monkeypatch, event_name, event, api, argv=(), hold=True):
+    # The hold logic stays tested as upstream wrote it; RedVoice switches it off.
+    monkeypatch.setattr(scope, "CLA_HOLD_ENABLED", hold)
     path = tmp_path / "event.json"
     path.write_text(json.dumps(event))
     output = tmp_path / "output"
@@ -283,6 +285,19 @@ def test_cla_lookup_failure_runs_everything(tmp_path, monkeypatch):
 @pytest.mark.parametrize("event_name", ["push", "merge_group"])
 def test_main_and_the_merge_queue_are_never_held(event_name):
     assert not scope.cla_hold(event_name, {"pull_request": {"user": ALICE}}, "owner/repo")
+
+
+def test_redvoice_never_holds_ci_and_never_looks_up_signatures(tmp_path, monkeypatch):
+    """RedVoice has no contributor agreement, so nobody could sign to release a hold."""
+    assert scope.CLA_HOLD_ENABLED is False
+    event = {"number": 7, "pull_request": {"user": ALICE}}
+    out, calls = _scope_main(tmp_path, monkeypatch, "pull_request", event, _api(set()), hold=False)
+    assert out == "runtime=true\ncla=clear\n"
+    assert all(c.endswith("/files") for c in calls)
+    second = tmp_path / "cla-only"
+    second.mkdir()
+    out, calls = _scope_main(second, monkeypatch, "pull_request", event, _api(set()), argv=("--cla",), hold=False)
+    assert out == "cla=clear\n" and not calls
 
 
 def test_cla_only_mode_writes_just_the_hold(tmp_path, monkeypatch):

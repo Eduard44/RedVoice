@@ -1,16 +1,3 @@
-<!--
-First pull request? Unless exempt under the CLA checker’s policy, sign the
-Contributor License Agreement once, before or after
-opening it: https://github.com/debpalash/VoiceStudio/issues/2586
-Your signature covers your future contributions. Every other non-exempt human commit
-author and co-author must also sign before merge. If this pull request contains
-`Supersedes #N`, that also includes the non-exempt human opener, commit authors
-and co-authors of pull request #N. Until the opener signs, the CLA check keeps
-the pull request a draft and its heavy CI waits. Signing restarts CI and marks
-the pull request ready for review, except one you made a draft yourself: that
-stays a draft until you mark it ready.
--->
-
 ## Summary
 
 <!-- Brief description of what this PR does. -->
@@ -42,7 +29,6 @@ stays a draft until you mark it ready.
 ## Checklist
 
 - [ ] I've tested this locally
-- [ ] Every non-exempt human commit author has signed the [CLA](https://github.com/debpalash/VoiceStudio/blob/main/.github/CLA-1.0.md) (the **CLA** check tells you how)
 - [ ] I've updated relevant documentation (if applicable)
 - [ ] User-visible change: I added a one-line `changelog.d/<PR#>.<type>.md` fragment (not `CHANGELOG.md`)
 - [ ] No local machine paths, logs, or personal env details in this PR

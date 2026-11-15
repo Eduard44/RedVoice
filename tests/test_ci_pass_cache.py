@@ -23,7 +23,7 @@ KEY_SCRIPT = ACTION["runs"]["steps"][0]["run"]
 USES = "./.github/actions/ci-pass"
 GATE = "steps.pass.outputs.hit != 'true'"
 # Required gates, security scans and release paths always run in full.
-NEVER = {"cla.yml", "commit-identity.yml", "merge-queue-checks.yml", "security.yml", "scam-guard.yml",
+NEVER = {"commit-identity.yml", "merge-queue-checks.yml", "security.yml", "scam-guard.yml",
          "electron-release.yml", "mobile-release.yml", "docker.yml"}
 SKIPPABLE_EVENTS = {"pull_request", "push", "merge_group", "workflow_dispatch"}
 

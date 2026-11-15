@@ -71,7 +71,7 @@ Plan: follow `docs/redvoice-pc-test-plan.md` on the test PC, then decide the def
 Learned while working (milestones 1 and 2):
 
 - Commits and pull requests carry only the owner's git identity: no extra co-author, attribution or tool lines and no session links. The repo's `commit-identity` check enforces this.
-- The VoiceStudio contributor agreement (CLA) bot comments on every pull request and sets it to draft. The owner does not sign it. Mark the pull request ready and merge once the real checks pass.
+- RedVoice has no contributor agreement. Upstream's CLA bot workflows are removed and its CI hold is off (`CLA_HOLD_ENABLED` in `.github/scripts/ci_scope.py`); `cla_check.py` stays because the commit-identity gate imports it. Do not sign VoiceStudio's CLA.
 - Run the formatter only on files you changed. Formatting a whole folder rewrites upstream files and makes later upstream merges harder.
 - The product name lives in `config/app.json`. Interface texts keep the upstream catalogs; `config/product-name.mjs` swaps VoiceStudio for RedVoice when a text is shown, except where it names upstream's own services (Pro, Cloud, accounts, donations).
 - `onlineServices: false` in `config/app.json` switches off accounts, Cloud, update checks and analytics, and hides Pro, star count and donate links.
