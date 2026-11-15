@@ -34,7 +34,10 @@ class InstallerScriptTests(unittest.TestCase):
         self.assertIn('MB_DEFBUTTON2', prompt)  # No is the default button
         self.assertIn('/SD IDNO', prompt)  # a silent uninstall keeps them
         removals = [l.strip() for l in uninstall.splitlines() if 'RMDir' in l]
-        self.assertEqual(removals, [r'RMDir /r "$APPDATA\VoiceStudio\runtime"', r'RMDir /r "$LOCALAPPDATA\OmniVoice\hf_cache"'])
+        # The app's own folder is named after the product (Electron's userData),
+        # so a renamed build must never remove another product's runtime.
+        self.assertEqual(removals, [r'RMDir /r "$APPDATA\${PRODUCT_NAME}\runtime"', r'RMDir /r "$LOCALAPPDATA\OmniVoice\hf_cache"'])
+        self.assertNotIn('VoiceStudio', INSTALLER.read_text(encoding='utf-8').replace('voicestudio_keep_downloads', ''))
         # Never during an update, and never voices/projects (%APPDATA%\OmniVoice).
         self.assertLess(uninstall.index('${IfNot} ${isUpdated}'), uninstall.index('RMDir'))
 

@@ -1,0 +1,170 @@
+name: RedVoice Windows installer
+
+# RedVoice: one button for the Windows x64 installer (docs/redvoice-install-windows.md).
+# The steps mirror the win32-x64 leg of electron-build.yml, so keep the two in
+# step when upstream changes that leg. Nothing is published unless `release`
+# is ticked; then the same installer is attached to a prerelease whose tag
+# (`redvoice-…`) never matches the upstream `v*` release workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Also put the installer on the Releases page (public download link)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: redvoice-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  omnivoice-tts:
+    # The OmniVoice GGUF runtime the installer ships under resources/bin: the
+    # Vulkan path RedVoice uses on Radeon cards.
+    uses: ./.github/workflows/build-omnivoice-tts.yml
+    with:
+      desktop: true
+
+  installer:
+    needs: omnivoice-tts
+    # The reusable build also makes the Linux and macOS runtimes. Only the
+    # Windows one is needed here; the download step fails if it is missing.
+    if: ${{ !cancelled() }}
+    runs-on: windows-2022
+    timeout-minutes: 60
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      file: ${{ steps.meta.outputs.file }}
+      sha256: ${{ steps.meta.outputs.sha256 }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      VOICESTUDIO_RUST_TARGET: x86_64-pc-windows-msvc
+      # packaging-contract.mjs requires this runtime in the installer.
+      VOICESTUDIO_OMNIVOICE_TTS_PLATFORM: windows-x86_64
+      # Update checks are switched off in RedVoice (config/app.json); the feed
+      # name only satisfies the packaging contract.
+      VOICESTUDIO_UPDATE_CHANNEL: electron-stable-win32-x64
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.4.2'
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          workspaces: native/desktop-bridge -> target
+          key: electron-x86_64-pc-windows-msvc
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6.8.0
+        with:
+          version: '0.12.13'
+          enable-cache: false
+      - name: Bundle pinned uv
+        run: |
+          mkdir -p electron/build/uv
+          cp "$(where.exe uv | head -n 1 | tr -d '\r')" electron/build/uv/uv-x86_64-pc-windows-msvc.exe
+      - name: Stage the OmniVoice GGUF runtime
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: omnivoice-tts-windows-x86_64
+          path: electron/build/omnivoice-tts
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+      - name: Validate and build Electron
+        run: bun run check:electron
+      - name: Package without publishing
+        working-directory: electron
+        run: |
+          bun x electron-builder --config electron-builder.config.mjs --win --x64 --publish never
+          node tests/packaging-contract.mjs --artifact
+          node tests/update-package-contract.mjs --platform win32 --arch x64
+      - name: Packaged startup smoke test
+        working-directory: electron
+        run: node tests/packaged-smoke.mjs --setup
+      - name: Install and start a fresh packaged runtime
+        working-directory: electron
+        timeout-minutes: 25
+        env:
+          VOICESTUDIO_RUNTIME_TIMEOUT_MS: '1200000'
+        run: node tests/packaged-smoke.mjs --install
+      - name: Describe the installer
+        id: meta
+        working-directory: electron/release
+        run: |
+          shopt -s nullglob
+          installers=(RedVoice-*-win-x64.exe)
+          if [ "${#installers[@]}" -ne 1 ]; then
+            echo "::error::expected one RedVoice-*-win-x64.exe, found ${#installers[@]}"
+            exit 1
+          fi
+          file="${installers[0]}"
+          sha256="$(sha256sum "$file" | cut -d ' ' -f 1)"
+          printf '%s  %s\n' "$sha256" "$file" > "$file.sha256"
+          version="${file#RedVoice-}"
+          {
+            echo "file=$file"
+            echo "version=${version%-win-x64.exe}"
+            echo "sha256=$sha256"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "### $file"
+            echo
+            echo "SHA-256: \`$sha256\`"
+            echo
+            echo "Download it from **Artifacts** at the bottom of this page. Unsigned: see docs/redvoice-install-windows.md."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Save the installer
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: RedVoice-windows-x64-installer
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            electron/release/RedVoice-*-win-x64.exe
+            electron/release/RedVoice-*-win-x64.exe.sha256
+
+  release:
+    needs: installer
+    if: ${{ inputs.release && needs.installer.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: RedVoice-windows-x64-installer
+          path: installer
+      - name: Publish a prerelease with the installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.installer.outputs.version }}
+          FILE: ${{ needs.installer.outputs.file }}
+          SHA256: ${{ needs.installer.outputs.sha256 }}
+        run: |
+          tag="redvoice-${VERSION}-build.${GITHUB_RUN_NUMBER}"
+          {
+            echo "Windows x64 installer for RedVoice, a modified fork of VoiceStudio (AGPL-3.0)."
+            echo "Built from commit ${GITHUB_SHA} of ${GITHUB_REPOSITORY}; the source is that commit."
+            echo
+            echo "The installer is not code-signed, so Windows SmartScreen warns before it runs."
+            echo "Steps: docs/redvoice-install-windows.md."
+            echo
+            echo "SHA-256 of ${FILE}: \`${SHA256}\`"
+          } > notes.md
+          gh release create "$tag" installer/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "RedVoice ${VERSION} (build ${GITHUB_RUN_NUMBER})" \
+            --notes-file notes.md \
+            --prerelease

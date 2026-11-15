@@ -89,7 +89,7 @@ Learned while working (milestones 1 and 2):
 | 4. Script to per-line takes | Built: Script page, 3 takes per line by default, export as `line-NN_take-NN.wav` (48 kHz 24-bit) to a folder (`docs/redvoice-script.md`). Needs a listening test on the PC |
 | 5. Voice timed to subtitles | Built into the Script page: import SRT/VTT, takes fit each slot, export clips plus a matching `voice-over.srt`. Needs a listening test on the PC |
 | 6. Send VO to Resolve timeline | Built: **Send to Resolve** on the Script page exports the chosen takes, imports them into a `RedVoice` bin and places them on a new `RedVoice VO` track (subtitle times, or one after another from the playhead). Needs a test with Resolve Studio on the PC |
-| 7. Windows installer build | Not started; release workflows still expect VoiceStudio file names |
+| 7. Windows installer build | Built: the **RedVoice Windows installer** workflow makes `RedVoice-<version>-win-x64.exe` (artifact, or a prerelease when asked), see `docs/redvoice-install-windows.md`. Unsigned. Needs an install test on the PC. The upstream `electron-release.yml` still expects VoiceStudio file names and is not used |
 
 ## Milestones
 
