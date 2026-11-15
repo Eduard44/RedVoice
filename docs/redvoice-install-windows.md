@@ -8,12 +8,14 @@ How to build the RedVoice installer for Windows (x64), install it, and what to e
 2. Press **Run workflow**, keep the branch `main`, and press the green **Run workflow** button.
    - Leave **Also put the installer on the Releases page** off for a private build.
    - Turn it on to also get a public download link on the Releases page (see [Releases page](#releases-page)).
-3. Wait until the run shows a green tick. It takes roughly 40 to 60 minutes: it builds the speech runtime, builds the app, packs the installer, then starts the packed app once on a clean Windows machine and lets it install its Python environment, so a broken installer fails here and not on your PC.
+3. Wait until the run shows a green tick. The first run took 25 minutes; allow up to an hour. It builds the speech runtime, builds the app, packs the installer, then starts the packed app once on a clean Windows machine and lets it install its Python environment, so a broken installer fails here and not on your PC.
 4. Open the finished run and scroll to **Artifacts**. Download **RedVoice-windows-x64-installer**. It is a zip with:
    - `RedVoice-<version>-win-x64.exe`, the installer
    - `RedVoice-<version>-win-x64.exe.sha256`, its checksum
 
 Artifacts need a signed-in GitHub account and are kept for 30 days. Run the workflow again whenever you want a fresh build.
+
+If the run fails in **Validate and build Electron** on the `install-doctor` test (a PowerShell check from upstream that fails now and then on busy runners), open the run and press **Re-run failed jobs** once. Any other failure is a real one.
 
 ## Install it
 
@@ -51,7 +53,7 @@ Delete a release on its page (**Delete**, then delete its tag) when you no longe
 - Update checks are switched off in RedVoice. To update, build and run a newer installer; it replaces the old version and keeps your data.
 - The version number is VoiceStudio's (`package.json`); the build number tells RedVoice builds apart.
 - The installer still adds the upstream `voicestudio` terminal command to PATH. That command has not been adapted to RedVoice and does not find the RedVoice app on its own; RedVoice does not need it.
-- Only Windows x64 is built here. The upstream workflows for other systems (`electron-build.yml`, `electron-release.yml`) are unchanged; `electron-release.yml` still expects VoiceStudio file names and is not used by RedVoice.
+- Only Windows x64 is built here. In the upstream packaging rehearsal (`electron-build.yml`) the macOS legs pass, but the Linux leg fails: `electron/scripts/embed-appimage-update.mjs` still expects the `VoiceStudio-…AppImage` file name and VoiceStudio's update feed. Fix that before building RedVoice for Linux. The upstream workflows for other systems (`electron-build.yml`, `electron-release.yml`) are unchanged; `electron-release.yml` still expects VoiceStudio file names and is not used by RedVoice.
 
 ## Code
 
