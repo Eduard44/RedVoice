@@ -2,9 +2,10 @@
 //
 // Release workflows download the binary that build-omnivoice-tts.yml built for
 // the runner's platform into build/omnivoice-tts/, and the installer ships that
-// directory as resources/bin/. The backend runs from resources/, so its lookup
-// (`<root>/bin/omnivoice-tts-<slug>` in backend/engines/omnivoice_gguf/backend.py)
-// finds it there unchanged.
+// directory as resources/bin/. The installed backend runs from a copy of its
+// sources in the runtime folder, which does not hold bin/, so the desktop shell
+// passes this folder as OMNIVOICE_TTS_BIN_DIR (electron/src/main/backend.ts) and
+// backend/engines/omnivoice_gguf/backend.py looks there instead of `<root>/bin`.
 //
 // The backend verifies every file against bin/checksums.sha256. Code signing
 // rewrites the files it signs, so the manifest is recomputed after signing:

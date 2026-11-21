@@ -80,19 +80,40 @@ def test_release_builds_the_runtime_from_the_release_ref():
     assert "release_tag" in build["with"]["ref"]
 
 
-def test_packaged_layout_matches_the_backend_lookup():
-    # The packaged backend runs from resources/, so `<root>/bin` is
-    # resources/bin — exactly where the installer puts the runtime.
+def test_packaged_layout_matches_the_backend_lookup(monkeypatch, tmp_path):
+    """An installed app runs the backend from a copy of its sources in the
+    runtime folder (electron/src/main/runtime-project.ts SOURCES), and that
+    copy has no bin/. The runtime stays in resources/bin, so the shell passes
+    that folder as OMNIVOICE_TTS_BIN_DIR. Before this, every installed app
+    reported the GPU runtime "missing" and never offered the GPU (RedVoice PC test).
+    """
     from engines.omnivoice_gguf import backend
 
+    # A source checkout keeps the runtime in <root>/bin.
+    monkeypatch.delenv(backend.BIN_DIR_ENV, raising=False)
     assert (backend._REPO_ROOT / "backend" / "engines" / "omnivoice_gguf").resolve() == \
         backend._PKG_DIR
     assert backend._binary_path("windows-x86_64") == backend._REPO_ROOT / "bin" / \
         "omnivoice-tts-windows-x86_64.exe"
+
+    # An installed app: the shell's folder wins, for the binary and its checksums.
+    shipped = tmp_path / "resources" / "bin"
+    shipped.mkdir(parents=True)
+    (shipped / "checksums.sha256").write_text("ab" * 32 + "  omnivoice-tts-windows-x86_64.exe\n")
+    monkeypatch.setenv(backend.BIN_DIR_ENV, str(shipped))
+    assert backend._binary_path("windows-x86_64") == shipped / "omnivoice-tts-windows-x86_64.exe"
+    assert backend._load_checksum_manifest() == {"omnivoice-tts-windows-x86_64.exe": "ab" * 32}
+
     config = (REPO / "electron" / "electron-builder.config.mjs").read_text(encoding="utf-8")
     assert "from: '../backend',\n      to: 'backend'" in config
     bundle = (REPO / "electron" / "omnivoice-tts-bundle.mjs").read_text(encoding="utf-8")
     assert "OMNIVOICE_TTS_RESOURCE_DIR = 'bin'" in bundle
+    staged = (REPO / "electron" / "src" / "main" / "runtime-project.ts").read_text(encoding="utf-8")
+    sources = staged.split("const SOURCES = [", 1)[1].split("];", 1)[0]
+    assert "'bin'" not in sources  # so the shell must say where the runtime is
+    shell = (REPO / "electron" / "src" / "main" / "backend.ts").read_text(encoding="utf-8")
+    assert "env.OMNIVOICE_TTS_BIN_DIR = bundledOmnivoiceTtsPath();" in shell
+    assert "return join(backendRoot(), 'bin');" in shell
 
 
 def _run_windows_build(tmp_path: Path, runtime: dict[str, str]):

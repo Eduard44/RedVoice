@@ -126,7 +126,10 @@ through explicit Settings overrides.
 ## Subprocess invocation
 
 Without a bundled server (below), the engine spawns
-`bin/omnivoice-tts-<platform>` once per `generate()` call. The CLI matches
+`bin/omnivoice-tts-<platform>` once per `generate()` call. In an installed
+desktop app the backend runs from a copy of its sources that has no `bin/`,
+so the shell sets `OMNIVOICE_TTS_BIN_DIR` to the app's `resources/bin` and the
+engine reads the binary and `checksums.sha256` from there. The CLI matches
 the `omnivoice.cpp` README:
 
 ```
