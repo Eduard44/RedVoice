@@ -82,7 +82,8 @@ export default defineConfig({
         },
       },
     ],
-    define,
+    // DIAGNOSTIC (diag/react-185, not for main): React development build, unminified names.
+    define: { ...define, 'process.env.NODE_ENV': JSON.stringify('development') },
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src/renderer/src'),
@@ -139,6 +140,7 @@ export default defineConfig({
       },
     },
     build: {
+      minify: false,
       rollupOptions: { input: resolve(__dirname, 'src/renderer/index.html') },
     },
   },

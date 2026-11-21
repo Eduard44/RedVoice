@@ -19,7 +19,14 @@ installConsoleCapture();
 installGlobalErrorRecovery();
 installPreloadRecovery();
 
-createRoot(document.getElementById('root')!).render(
+// DIAGNOSTIC (diag/react-185, not for main): log React's component stack.
+const logReactError = (kind: string) => (error: unknown, info: { componentStack?: string | null }) =>
+  console.error(`REACT-${kind}`, String((error as Error)?.message ?? error), info?.componentStack ?? '');
+createRoot(document.getElementById('root')!, {
+  onUncaughtError: logReactError('UNCAUGHT'),
+  onCaughtError: logReactError('CAUGHT'),
+  onRecoverableError: logReactError('RECOVERABLE'),
+}).render(
   window.location.hash === '#/capture' ? (
     <CaptureWidget />
   ) : (
