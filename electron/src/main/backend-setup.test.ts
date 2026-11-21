@@ -119,6 +119,7 @@ vi.mock('./setup-downloads', async (importOriginal) => ({
 import {
   BackendSupervisor,
   bundledUvPath,
+  bundledOmnivoiceTtsPath,
   bundledWebUiPath,
   isExpectedPipeClose,
   managedBackendSpawnOptions,
@@ -1020,6 +1021,24 @@ it('keeps a web UI directory the user pinned themselves', () => {
   stubResourcesPath(join('/opt', 'VoiceStudio', 'resources'));
 
   expect(managedBackendSpawnOptions(3900).env.OMNIVOICE_FRONTEND_DIST).toBe('/custom/web');
+});
+
+it('points the backend at the GPU speech runtime shipped in resources/bin', () => {
+  vi.stubEnv('OMNIVOICE_TTS_BIN_DIR', '');
+  stubResourcesPath(join('/opt', 'RedVoice', 'resources'));
+
+  const { env } = managedBackendSpawnOptions(3900);
+
+  // The backend runs from the runtime project copy, which has no bin/ (RedVoice PC test).
+  expect(env.OMNIVOICE_TTS_BIN_DIR).toBe(join('/opt', 'RedVoice', 'resources', 'bin'));
+  expect(bundledOmnivoiceTtsPath()).toBe(env.OMNIVOICE_TTS_BIN_DIR);
+});
+
+it('keeps a GPU speech runtime folder the user pinned themselves', () => {
+  vi.stubEnv('OMNIVOICE_TTS_BIN_DIR', '/custom/bin');
+  stubResourcesPath(join('/opt', 'RedVoice', 'resources'));
+
+  expect(managedBackendSpawnOptions(3900).env.OMNIVOICE_TTS_BIN_DIR).toBe('/custom/bin');
 });
 
 it('exposes the current process signal separately from the durable crash journal', async () => {

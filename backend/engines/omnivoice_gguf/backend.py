@@ -133,13 +133,25 @@ def _platform_slug() -> str:
     return "linux-x86_64"
 
 
+#: Folder holding the bundled runtime. An installed app runs this backend from
+#: a copy of its sources under the runtime folder, while the runtime stays in
+#: the app's resources/bin; the desktop shell points here at that folder.
+BIN_DIR_ENV = "OMNIVOICE_TTS_BIN_DIR"
+
+
+def _bin_dir() -> Path:
+    """The runtime folder: ``OMNIVOICE_TTS_BIN_DIR`` when set, else ``<root>/bin``."""
+    override = os.environ.get(BIN_DIR_ENV, "").strip()
+    return Path(override) if override else _REPO_ROOT / "bin"
+
+
 def _binary_path(slug: Optional[str] = None) -> Path:
     """Resolve the on-disk path for the platform binary."""
     s = slug or _platform_slug()
     name = "omnivoice-tts-" + s
     if s.startswith("windows"):
         name += ".exe"
-    return _REPO_ROOT / "bin" / name
+    return _bin_dir() / name
 
 
 def _generate_timeout_s() -> float:
@@ -735,7 +747,7 @@ def _load_checksum_manifest() -> dict[str, str]:
     :class:`ChecksumManifestError`: an entry that may have declared a checksum
     must never be skipped silently.
     """
-    manifest = _REPO_ROOT / "bin" / "checksums.sha256"
+    manifest = _bin_dir() / "checksums.sha256"
     out: dict[str, str] = {}
     if not manifest.is_file():
         return out
