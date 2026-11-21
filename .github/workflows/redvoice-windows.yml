@@ -82,6 +82,8 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Validate and build Electron
         run: bun run check:electron
+      - name: DIAGNOSTIC development renderer build (React error details)
+        run: NODE_ENV=development bun run --cwd electron build
       - name: Package without publishing
         working-directory: electron
         run: |

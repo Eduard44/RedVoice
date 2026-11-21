@@ -143,6 +143,9 @@ try {
   const window = await app.firstWindow();
   const errors = [];
   window.on('pageerror', (error) => errors.push(error.message));
+  // DIAGNOSTIC (diag/react-185, not for main): print renderer errors with their component stacks.
+  window.on('pageerror', (error) => console.log('RENDERER-PAGEERROR', String(error.stack || error).slice(0, 4000)));
+  window.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') console.log('RENDERER-CONSOLE', m.type(), m.text().slice(0, 6000)); });
   await window.waitForURL('app://voicestudio/**');
   if (firstSound) {
     const resumed = await window.evaluate(() => {
