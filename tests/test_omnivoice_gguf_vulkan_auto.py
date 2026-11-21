@@ -308,6 +308,18 @@ def test_accepting_needs_the_model_licence_first(eligible, monkeypatch):
     assert eligible.downloads == []
 
 
+def test_offer_still_shows_after_the_setup_wizard_picked_cpu_omnivoice(eligible):
+    """The wizard's model packs store the subprocess OmniVoice engine on Windows;
+    that is OmniVoice on the CPU, not a user choice against the GPU (RedVoice PC test)."""
+    from services import tts_backend
+
+    eligible.store["tts_backend"] = "omnivoice-subprocess"
+    assert eligible.offer.offer_status()["show"] is True
+    eligible.offer.respond(True)
+    assert tts_backend.active_backend_id() == "omnivoice-gguf"
+    assert eligible.offer.offer_status()["show"] is False
+
+
 def test_no_offer_when_the_user_picked_an_engine(eligible):
     eligible.store["tts_backend"] = "kokoro"
     assert eligible.offer.offer_status()["show"] is False

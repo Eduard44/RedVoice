@@ -26,6 +26,10 @@ from core import prefs
 
 PREF_KEY = "gguf_vulkan_offer"
 ENGINE_ID = "omnivoice-gguf"
+#: Engines the offer may replace: no choice yet, or OmniVoice on the CPU. The
+#: setup wizard's model packs store "omnivoice-subprocess" on Windows before the
+#: user reaches the studio, which used to hide the offer for good.
+_OFFER_REPLACES = (None, "omnivoice", "omnivoice-subprocess")
 _DOWNLOAD_OK = ("started", "already_running", "already_installed")
 
 
@@ -68,7 +72,7 @@ def offer_status() -> dict:
         "blocked_by_environment": blocked,
         "answer": answer,
         "active": chosen == ENGINE_ID,
-        "show": bool(eligible and answer is None and chosen in (None, "omnivoice")),
+        "show": bool(eligible and answer is None and chosen in _OFFER_REPLACES),
         "licence_accepted": _licence_accepted() if eligible else False,
         "gpu_name": None, "device": None, "vendor": None, "shared_memory": False,
         "effective_vram_gb": None, "quant": None, "download_mb": 0,
